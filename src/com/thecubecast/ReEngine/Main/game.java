@@ -1,24 +1,27 @@
 package com.thecubecast.ReEngine.Main;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import com.thecubecast.ReEngine.Main.InputHandler; 
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
-public class game extends JFrame {
+public class Game extends JFrame {
 
 	private int FPS = 120;
 	private String Title = "ReEngine";
 	private int Width = 600;
 	private int Height = 400;
 	
-	private Insets insets;
+	Insets insets;
+	InputHandler input;
 	
 	private BufferedImage backBuffer;
 	private int x = 0;
 
 	public static void main(String[] args) {
-		game ReEngine = new game();
+		Game ReEngine = new Game();
 		ReEngine.initialize();
 		ReEngine.run();
 		System.exit(0);
@@ -50,8 +53,6 @@ public class game extends JFrame {
 	}
 	
 	void initialize() {
-		backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_RGB);
-		
 		setTitle(Title); 
         setSize(Width, Height); 
         setResizable(false); 
@@ -60,10 +61,20 @@ public class game extends JFrame {
         
         insets = getInsets(); 
         setSize(insets.left + Width + insets.right, insets.top + Height + insets.bottom); 
+        
+        backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_RGB);
+        input = new InputHandler(this); 
 	}
 	
 	void update() {
-		x++;
+		if (input.isKeyDown(KeyEvent.VK_D)) 
+		{ 
+		        x += 5; 
+		} 
+		if (input.isKeyDown(KeyEvent.VK_A)) 
+		{ 
+		        x -= 5; 
+		} 
 		
 	}
 	
