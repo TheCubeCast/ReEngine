@@ -5,6 +5,9 @@ import java.awt.event.*;
 
 public class InputHandler implements KeyListener 
 {        
+	
+		private boolean keys[];
+	
         public InputHandler(Component c) 
         { 
                 c.addKeyListener(this); 
@@ -17,7 +20,12 @@ public class InputHandler implements KeyListener
          */ 
         public boolean isKeyDown(int keyCode) 
         { 
+                if (keyCode > 0 && keyCode < 256) 
+                { 
+                        return keys[keyCode]; 
+                } 
                 
+                return false; 
         } 
         
         /** 
