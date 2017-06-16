@@ -1,5 +1,6 @@
 package com.thecubecast.ReEngine.Main;
 
+import com.thecubecast.ReEngine.Main.JukeBox;
 import com.thecubecast.ReEngine.Main.InputHandler; 
 
 import java.awt.*;
@@ -19,6 +20,7 @@ public class Game extends JFrame {
 	
 	private BufferedImage backBuffer;
 	private int x = 0;
+	private int y = 10;
 
 	public static void main(String[] args) {
 		Game ReEngine = new Game();
@@ -29,6 +31,9 @@ public class Game extends JFrame {
 	
 	public void run() {
 		boolean isRunning = true;
+		
+		JukeBox.load("/Music/bgmusic.wav", "introsound");
+		JukeBox.loop("introsound");
 		
 		while(isRunning) {
 			long time = System.currentTimeMillis();
@@ -63,18 +68,30 @@ public class Game extends JFrame {
         setSize(insets.left + Width + insets.right, insets.top + Height + insets.bottom); 
         
         backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_RGB);
-        input = new InputHandler(this); 
+        
+        JukeBox.init();
 	}
 	
+	
 	void update() {
-		if (input.isKeyDown(KeyEvent.VK_D)) 
-		{ 
-		        x += 5; 
-		} 
-		if (input.isKeyDown(KeyEvent.VK_A)) 
-		{ 
-		        x -= 5; 
-		} 
+		//if (input.isKeyDown(KeyEvent.VK_D)) 
+		//{ 
+			if (x < 400 && y < 200) {
+		       x = x + 1; 
+			} else {
+				if (y < 200) {
+					 y = y + 1; 
+				} else {
+					if (x != 0) {
+					 x = x - 1; 
+					}
+				}
+			}
+		//} 
+		//if (input.isKeyDown(KeyEvent.VK_A)) 
+		//{ 
+		//        x -= 5; 
+		//} 
 		
 	}
 	
@@ -82,11 +99,12 @@ public class Game extends JFrame {
 		Graphics g = getGraphics();
 		Graphics bbg = backBuffer.getGraphics();
 		
-		bbg.setColor(Color.white);
+		bbg.setColor(Color.green);
 		bbg.fillRect(0, 0, Width, Height);
 		
-		bbg.setColor(Color.black);
-		bbg.drawOval(x, 10, 20, 20);
+		bbg.setColor(Color.red);
+		bbg.drawOval(x, y, 20, 20);
+		bbg.fillOval(x, y, 20, 20);
 		
 		g.drawImage(backBuffer, insets.left, insets.top, this); 
 	}

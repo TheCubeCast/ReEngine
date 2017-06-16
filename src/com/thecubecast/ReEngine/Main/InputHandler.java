@@ -12,7 +12,7 @@ import java.awt.event.*;
 public class InputHandler implements KeyListener 
 {        
 	
-		public boolean keys[] = new boolean[256];
+		boolean[] keys = new boolean [256];
 	
         public InputHandler(Component c) 
         { 
