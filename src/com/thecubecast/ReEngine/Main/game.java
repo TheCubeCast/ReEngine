@@ -70,30 +70,31 @@ public class Game extends JFrame {
         backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_RGB);
         
         JukeBox.init();
+        
+        input = new InputHandler(this);
 	}
 	
 	
 	void update() {
-		//if (input.isKeyDown(KeyEvent.VK_D)) 
-		//{ 
-			if (x < 400 && y < 200) {
-		       x = x + 1; 
-			} else {
-				if (y < 200) {
-					 y = y + 1; 
-				} else {
-					if (x != 0) {
-					 x = x - 1; 
-					}
-				}
-			}
-		//} 
-		//if (input.isKeyDown(KeyEvent.VK_A)) 
-		//{ 
-		//        x -= 5; 
-		//} 
-		
+	 
+		if (input.isKeyDown(KeyEvent.VK_RIGHT)) 
+		{ 
+		        x += 5; 
+		} 
+		if (input.isKeyDown(KeyEvent.VK_LEFT)) 
+		{ 
+		        x -= 5; 
+		}
+		if (input.isKeyDown(KeyEvent.VK_UP)) 
+		{ 
+		        y -= 5; 
+		} 
+		if (input.isKeyDown(KeyEvent.VK_DOWN)) 
+		{ 
+		        y += 5; 
+		} 
 	}
+
 	
 	void draw() {
 		Graphics g = getGraphics();
