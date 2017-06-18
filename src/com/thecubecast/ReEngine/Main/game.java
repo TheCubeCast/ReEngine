@@ -1,7 +1,10 @@
 package com.thecubecast.ReEngine.Main;
 
-import com.thecubecast.ReEngine.Main.JukeBox;
+import com.thecubecast.ReEngine.Data.JukeBox;
 import com.thecubecast.ReEngine.Main.InputHandler; 
+
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -10,6 +13,8 @@ import javax.swing.JFrame;
 
 public class Game extends JFrame {
 
+	private BufferedImage Test;
+	
 	private int FPS = 120;
 	private String Title = "ReEngine";
 	private int Width = 600;
@@ -58,6 +63,14 @@ public class Game extends JFrame {
 	}
 	
 	void initialize() {
+		
+		try {
+			Test = ImageIO.read(getClass().getResourceAsStream("/Sprites/53.png"));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		setTitle(Title); 
         setSize(Width, Height); 
         setResizable(false); 
@@ -67,7 +80,7 @@ public class Game extends JFrame {
         insets = getInsets(); 
         setSize(insets.left + Width + insets.right, insets.top + Height + insets.bottom); 
         
-        backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_RGB);
+        backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_ARGB);
         
         JukeBox.init();
         
@@ -100,12 +113,10 @@ public class Game extends JFrame {
 		Graphics g = getGraphics();
 		Graphics bbg = backBuffer.getGraphics();
 		
-		bbg.setColor(Color.green);
+		bbg.setColor(Color.WHITE);
 		bbg.fillRect(0, 0, Width, Height);
 		
-		bbg.setColor(Color.red);
-		bbg.drawOval(x, y, 20, 20);
-		bbg.fillOval(x, y, 20, 20);
+		bbg.drawImage(Test, x, y, 20, 20, null);
 		
 		g.drawImage(backBuffer, insets.left, insets.top, this); 
 	}

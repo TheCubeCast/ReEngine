@@ -2,7 +2,7 @@
 // Call init() as soon as possible to instantiate
 // the clips HashMap.
 
-package com.thecubecast.ReEngine.Main;
+package com.thecubecast.ReEngine.Data;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
