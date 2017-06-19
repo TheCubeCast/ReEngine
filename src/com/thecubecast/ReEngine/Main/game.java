@@ -3,31 +3,29 @@ package com.thecubecast.ReEngine.Main;
 import com.thecubecast.ReEngine.Data.JukeBox;
 import com.thecubecast.ReEngine.Main.InputHandler; 
 
-import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.Transparency;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 public class Game extends JFrame {
-
-	private BufferedImage Player;
-	private BufferedImage Dirt;
+	
+	//Always set to 1 above the number of spites in file
+	private BufferedImage[] Tiles = new BufferedImage[54];
 	
 	private int FPS = 120;
 	private String Title = "ReEngine";
 	private int Width = GetMonitorSizeW();
 	private int Height = GetMonitorSizeH();
-	
-	Insets insets;
+
 	InputHandler input;
 	
 	private BufferedImage backBuffer;
-	private int x = 0;
-	private int y = 10;
+	private int TileSize = 40; //This is the size of each tile, aswell as how far the camera moves per "turn"
+	private int cameraX;
+	private int cameraY;
 
 	public static void main(String[] args) {
 		Game ReEngine = new Game();
@@ -67,13 +65,27 @@ public class Game extends JFrame {
 	
 	void initialize() {
 		
-		try {
-			Player = ImageIO.read(getClass().getResourceAsStream("/Sprites/53.png"));
-			Dirt = ImageIO.read(getClass().getResourceAsStream("/Sprites/00.png"));
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		for(int i=0; i < Tiles.length; ++i){
+			if (i >= 10) {
+				try {
+					print("Loaded images /Sprites/"+ Integer.toString(i) +".png");
+					Tiles[i] = ImageIO.read(getClass().getResourceAsStream("/Sprites/"+ Integer.toString(i) +".png"));
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					print("Loaded images /Sprites/0"+ Integer.toString(i) +".png");
+					Tiles[i] = ImageIO.read(getClass().getResourceAsStream("/Sprites/0"+ Integer.toString(i) +".png"));
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+       }
+		
 		
 		setTitle(Title); 
         setSize(Width, Height); 
@@ -83,8 +95,7 @@ public class Game extends JFrame {
         setUndecorated(true);
         setVisible(true); 
         
-        insets = getInsets(); 
-        setSize(insets.left + Width + insets.right, insets.top + Height + insets.bottom); 
+        setSize(Width, Height); 
         
         backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_ARGB);
         
@@ -95,22 +106,26 @@ public class Game extends JFrame {
 	
 	
 	void update() {
-	 
+		 
 		if (input.isKeyDown(KeyEvent.VK_RIGHT)) 
 		{ 
-		        x += 5; 
+			cameraX += TileSize; 
+			sleep(10);
 		} 
 		if (input.isKeyDown(KeyEvent.VK_LEFT)) 
 		{ 
-		        x -= 5; 
+			cameraX -= TileSize; 
+			sleep(10);
 		}
 		if (input.isKeyDown(KeyEvent.VK_UP)) 
 		{ 
-		        y -= 5; 
+			cameraY -= TileSize; 
+			sleep(10);
 		} 
 		if (input.isKeyDown(KeyEvent.VK_DOWN)) 
 		{ 
-		        y += 5; 
+			cameraY += TileSize; 
+			sleep(10);
 		} 
 		
 		//IF STATEMENT THAT WILL BE PUT HERE WHEN INPUT HANDLING IS FIXED
@@ -131,14 +146,20 @@ public class Game extends JFrame {
 		//Draw the background here
 		
 		//The Tiles are being drawn on this "Layer"
-		bbg.drawImage(Dirt, 20, 20, 40, 40, null);
+		bbg.drawImage(Tiles[00], 40 - cameraX, 40 - cameraY, TileSize, TileSize, null);
 		
 		//The "Player" and other entities or overlays must be drawn last. Think top layer 
-		bbg.drawImage(Player, x, y, 20, 20, null);
+		bbg.drawImage(Tiles[53], Width / 2, Height / 2, TileSize, TileSize, null);
 		
-		g.drawImage(backBuffer, insets.left, insets.top, this); 
+		//The GUI would go here
+		
+		//This just swaps the buffers
+		g.drawImage(backBuffer, 0, 0, this); 
 	}
 	
+	
+	
+	//Everything Below is just helpful functions
 	
 	int GetMonitorSizeW() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -147,5 +168,18 @@ public class Game extends JFrame {
 	int GetMonitorSizeH() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		return gd.getDisplayMode().getHeight();
+	}
+	
+	void print(String Output) {
+		System.out.println(Output);
+	}
+	
+	void sleep(int Time) {
+		 try {
+			 // thread to sleep for 1000 milliseconds
+	         Thread.sleep(Time);
+	     } catch (Exception e) {
+	    	 System.out.println(e);
+	     }
 	}
 }
