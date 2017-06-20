@@ -16,8 +16,6 @@ public class Game extends JFrame {
 	private String Title = "ReEngine";
 	private int Width = Common.GetMonitorSizeW();
 	private int Height = Common.GetMonitorSizeH();
-
-	InputHandler input;
 	
 	private BufferedImage backBuffer;
 	private int TileSize = 40; //This is the size of each tile, aswell as how far the camera moves per "turn"
@@ -78,29 +76,27 @@ public class Game extends JFrame {
         
         Render.Init();
         JukeBox.init();
-        
-        input = new InputHandler(this);
 	}
 	
 	
 	void update() {
 		 
-		if (input.isKeyDown(KeyEvent.VK_RIGHT)) 
+		if (InputHandler.isDown(4)) 
 		{ 
 			cameraX += TileSize; 
 			Common.sleep(10);
 		} 
-		if (input.isKeyDown(KeyEvent.VK_LEFT)) 
+		if (InputHandler.isDown(1)) 
 		{ 
 			cameraX -= TileSize; 
 			Common.sleep(10);
 		}
-		if (input.isKeyDown(KeyEvent.VK_UP)) 
+		if (InputHandler.isDown(0)) 
 		{ 
 			cameraY -= TileSize; 
 			Common.sleep(10);
 		} 
-		if (input.isKeyDown(KeyEvent.VK_DOWN)) 
+		if (InputHandler.isDown(2)) 
 		{ 
 			cameraY += TileSize; 
 			Common.sleep(10);
@@ -136,7 +132,7 @@ public class Game extends JFrame {
 		Render.DrawTiles(bbg, cameraX, cameraY, TileSize);
 		
 		//The "Player" and other entities or overlays must be drawn last. Think top layer 
-		//Render.Player(bbg, )
+		Render.Player(bbg, Width / 2, Height / 2, 40, 40);
 		
 		//The GUI would go here
 		

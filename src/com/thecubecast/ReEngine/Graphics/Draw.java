@@ -54,8 +54,8 @@ public class Draw {
 	}
 	
 	//This will handle the animations as well
-	public void Player(Graphics buffer, int x, int y) {
-		buffer.drawImage(Tiles[07], 0, 0, x, y, null);
+	public void Player(Graphics buffer, int PosX, int PosY, int Sizex, int Sizey) {
+		buffer.drawImage(Tiles[53], PosX, PosY, Sizex, Sizey, null);
 	}
 	
 }
