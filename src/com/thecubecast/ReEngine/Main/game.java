@@ -1,7 +1,9 @@
 package com.thecubecast.ReEngine.Main;
 
+import com.thecubecast.ReEngine.Data.Common;
 import com.thecubecast.ReEngine.Data.JukeBox;
 import com.thecubecast.ReEngine.Main.InputHandler; 
+import com.thecubecast.ReEngine.Graphics.Draw;
 
 import javax.imageio.ImageIO;
 
@@ -11,14 +13,11 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 public class Game extends JFrame {
-	
-	//Always set to 1 above the number of spites in file
-	private BufferedImage[] Tiles = new BufferedImage[54];
-	
+	Draw Render;
 	private int FPS = 120;
 	private String Title = "ReEngine";
-	private int Width = GetMonitorSizeW();
-	private int Height = GetMonitorSizeH();
+	private int Width = Common.GetMonitorSizeW();
+	private int Height = Common.GetMonitorSizeH();
 
 	InputHandler input;
 	
@@ -65,27 +64,6 @@ public class Game extends JFrame {
 	
 	void initialize() {
 		
-		for(int i=0; i < Tiles.length; ++i){
-			if (i >= 10) {
-				try {
-					print("Loaded images /Sprites/"+ Integer.toString(i) +".png");
-					Tiles[i] = ImageIO.read(getClass().getResourceAsStream("/Sprites/"+ Integer.toString(i) +".png"));
-				}
-				catch(Exception e) {
-					e.printStackTrace();
-				}
-			} else {
-				try {
-					print("Loaded images /Sprites/0"+ Integer.toString(i) +".png");
-					Tiles[i] = ImageIO.read(getClass().getResourceAsStream("/Sprites/0"+ Integer.toString(i) +".png"));
-				}
-				catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-       }
-		
 		
 		setTitle(Title); 
         setSize(Width, Height); 
@@ -99,6 +77,7 @@ public class Game extends JFrame {
         
         backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_ARGB);
         
+        Render.Init();
         JukeBox.init();
         
         input = new InputHandler(this);
@@ -110,22 +89,22 @@ public class Game extends JFrame {
 		if (input.isKeyDown(KeyEvent.VK_RIGHT)) 
 		{ 
 			cameraX += TileSize; 
-			sleep(10);
+			Common.sleep(10);
 		} 
 		if (input.isKeyDown(KeyEvent.VK_LEFT)) 
 		{ 
 			cameraX -= TileSize; 
-			sleep(10);
+			Common.sleep(10);
 		}
 		if (input.isKeyDown(KeyEvent.VK_UP)) 
 		{ 
 			cameraY -= TileSize; 
-			sleep(10);
+			Common.sleep(10);
 		} 
 		if (input.isKeyDown(KeyEvent.VK_DOWN)) 
 		{ 
 			cameraY += TileSize; 
-			sleep(10);
+			Common.sleep(10);
 		} 
 		
 		//IF STATEMENT THAT WILL BE PUT HERE WHEN INPUT HANDLING IS FIXED
@@ -135,6 +114,12 @@ public class Game extends JFrame {
 
 	
 	void draw() {
+		
+		/**
+		 * To use the camera
+		 * Subtract the location of the sprite by the cameras position.
+		 */
+		
 		//This sets up the FPS and important stuff
 		Graphics g = getGraphics();
 		Graphics bbg = backBuffer.getGraphics();
@@ -144,42 +129,19 @@ public class Game extends JFrame {
 		
 		//The bottom layer
 		//Draw the background here
+		Render.Background(bbg, Width, Height);
 		
 		//The Tiles are being drawn on this "Layer"
-		bbg.drawImage(Tiles[00], 40 - cameraX, 40 - cameraY, TileSize, TileSize, null);
+		//A function that reads the map file, then places each tile on the screen
+		
+		Render.DrawTiles(bbg, cameraX, cameraY, TileSize);
 		
 		//The "Player" and other entities or overlays must be drawn last. Think top layer 
-		bbg.drawImage(Tiles[53], Width / 2, Height / 2, TileSize, TileSize, null);
+		//Render.Player(bbg, )
 		
 		//The GUI would go here
 		
 		//This just swaps the buffers
 		g.drawImage(backBuffer, 0, 0, this); 
-	}
-	
-	
-	
-	//Everything Below is just helpful functions
-	
-	int GetMonitorSizeW() {
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		return gd.getDisplayMode().getWidth();
-	}
-	int GetMonitorSizeH() {
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		return gd.getDisplayMode().getHeight();
-	}
-	
-	void print(String Output) {
-		System.out.println(Output);
-	}
-	
-	void sleep(int Time) {
-		 try {
-			 // thread to sleep for 1000 milliseconds
-	         Thread.sleep(Time);
-	     } catch (Exception e) {
-	    	 System.out.println(e);
-	     }
 	}
 }
