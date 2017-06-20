@@ -17,6 +17,8 @@ public class Game extends JFrame {
 	private int Width = Common.GetMonitorSizeW();
 	private int Height = Common.GetMonitorSizeH();
 	
+	InputHandler input;
+	
 	private BufferedImage backBuffer;
 	private int TileSize = 40; //This is the size of each tile, aswell as how far the camera moves per "turn"
 	private int cameraX;
@@ -76,27 +78,29 @@ public class Game extends JFrame {
         
         Render.Init();
         JukeBox.init();
+        
+        input = new InputHandler(this);
 	}
 	
 	
 	void update() {
 		 
-		if (InputHandler.isDown(4)) 
+		if (input.isKeyDown(KeyEvent.VK_RIGHT)) 
 		{ 
 			cameraX += TileSize; 
 			Common.sleep(10);
 		} 
-		if (InputHandler.isDown(1)) 
+		if (input.isKeyDown(KeyEvent.VK_LEFT)) 
 		{ 
 			cameraX -= TileSize; 
 			Common.sleep(10);
 		}
-		if (InputHandler.isDown(0)) 
+		if (input.isKeyDown(KeyEvent.VK_UP)) 
 		{ 
 			cameraY -= TileSize; 
 			Common.sleep(10);
 		} 
-		if (InputHandler.isDown(2)) 
+		if (input.isKeyDown(KeyEvent.VK_DOWN)) 
 		{ 
 			cameraY += TileSize; 
 			Common.sleep(10);
