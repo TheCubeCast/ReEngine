@@ -32,8 +32,7 @@ public class Draw {
 					e.printStackTrace();
 				}
 			}
-			
-       }
+        }
 	}
 	
 	

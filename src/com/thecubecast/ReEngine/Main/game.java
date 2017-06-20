@@ -5,8 +5,6 @@ import com.thecubecast.ReEngine.Data.JukeBox;
 import com.thecubecast.ReEngine.Main.InputHandler; 
 import com.thecubecast.ReEngine.Graphics.Draw;
 
-import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
@@ -77,7 +75,7 @@ public class Game extends JFrame {
         
         backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_ARGB);
         
-        Render.Init();
+        //Render.Init();
         JukeBox.init();
         
         input = new InputHandler(this);
