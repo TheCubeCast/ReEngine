@@ -62,6 +62,7 @@ public class Game extends JFrame {
 	
 	void initialize() {
 		
+		Render = new Draw();
 		
 		setTitle(Title); 
         setSize(Width, Height); 
@@ -75,7 +76,7 @@ public class Game extends JFrame {
         
         backBuffer = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_ARGB);
         
-        //Render.Init();
+        Render.Init();
         JukeBox.init();
         
         input = new InputHandler(this);
