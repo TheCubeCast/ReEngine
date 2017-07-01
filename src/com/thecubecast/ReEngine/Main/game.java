@@ -36,7 +36,7 @@ public class Game extends JFrame {
 		
 		JukeBox.load("/Music/bgmusic.wav", "introsound");
 		JukeBox.loop("introsound");
-		JukeBox.setVolume("introsound", -30.0f);
+		//JukeBox.setVolume("introsound", -30.0f);
 		
 		while(isRunning) {
 			long time = System.currentTimeMillis();

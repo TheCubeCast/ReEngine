@@ -49,6 +49,7 @@ public class JukeBox {
 			clip = AudioSystem.getClip();
 			clip.open(dais);
 			clips.put(n, clip);
+			Common.print("Loaded " + s + " as " + n);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -57,6 +58,7 @@ public class JukeBox {
 	
 	public static void play(String s) {
 		play(s, gap);
+		Common.print("Playing " + s + ". ");
 	}
 	
 	public static void play(String s, int i) {
