@@ -21,9 +21,13 @@ public class Game extends JFrame {
 	
 	private BufferedImage backBuffer;
 	private int TileSize = 40; //This is the size of each tile, aswell as how far the camera moves per "turn"
+	private int WorldSize = 200; //radius expanding from the origin point (0,0) of the world
 	private int cameraX;
 	private int cameraY;
-
+	
+	private int PlayerDirection = 1;
+	private boolean MenuOpen = false;
+	
 	public static void main(String[] args) {
 		Game ReEngine = new Game();
 		ReEngine.initialize();
@@ -35,7 +39,7 @@ public class Game extends JFrame {
 		boolean isRunning = true;
 		
 		JukeBox.load("/Music/bgmusic.wav", "introsound");
-		JukeBox.loop("introsound");
+		//JukeBox.loop("introsound");
 		//JukeBox.setVolume("introsound", -30.0f);
 		
 		while(isRunning) {
@@ -84,27 +88,48 @@ public class Game extends JFrame {
 	
 	
 	void update() {
-		 
-		if (input.isKeyDown(KeyEvent.VK_RIGHT)) 
-		{ 
-			cameraX += TileSize; 
-			Common.sleep(10);
+		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) { 
+			MenuOpen = !MenuOpen;
 		} 
-		if (input.isKeyDown(KeyEvent.VK_LEFT)) 
-		{ 
-			cameraX -= TileSize; 
-			Common.sleep(10);
+		
+		if (!MenuOpen) {
+			if (input.isKeyDown(KeyEvent.VK_RIGHT)) 
+			{ 
+				if (input.isKeyDown(KeyEvent.VK_LEFT)) {}
+				else {
+					cameraX += TileSize; 
+					PlayerDirection = 4;
+					Common.sleep(10);	
+				}
+			} 
+			else if (input.isKeyDown(KeyEvent.VK_LEFT)) 
+			{ 
+				if (input.isKeyDown(KeyEvent.VK_RIGHT)) {}
+				else {
+					cameraX -= TileSize; 
+					PlayerDirection = 2;
+					Common.sleep(10);	
+				}
+			}
+			else if (input.isKeyDown(KeyEvent.VK_UP)) 
+			{ 
+				if (input.isKeyDown(KeyEvent.VK_DOWN)) {}
+				else {
+					cameraY -= TileSize;
+					PlayerDirection = 1;
+					Common.sleep(10);
+				}
+			} 
+			else if (input.isKeyDown(KeyEvent.VK_DOWN)) 
+			{ 
+				if (input.isKeyDown(KeyEvent.VK_UP)) {}
+				else {
+					cameraY += TileSize; 
+					PlayerDirection = 3;
+					Common.sleep(10);
+				}
+			} 
 		}
-		if (input.isKeyDown(KeyEvent.VK_UP)) 
-		{ 
-			cameraY -= TileSize; 
-			Common.sleep(10);
-		} 
-		if (input.isKeyDown(KeyEvent.VK_DOWN)) 
-		{ 
-			cameraY += TileSize; 
-			Common.sleep(10);
-		} 
 		
 		//IF STATEMENT THAT WILL BE PUT HERE WHEN INPUT HANDLING IS FIXED
 		//IT WILL QUIT THE GAME
@@ -133,13 +158,14 @@ public class Game extends JFrame {
 		//The Tiles are being drawn on this "Layer"
 		//A function that reads the map file, then places each tile on the screen
 		
-		Render.DrawTiles(bbg, cameraX, cameraY, TileSize);
+		Render.DrawTiles(bbg, cameraX, cameraY, TileSize, WorldSize);
 		
 		//The "Player" and other entities or overlays must be drawn last. Think top layer 
-		Render.Player(bbg, Width / 2, Height / 2, 40, 40);
+		Render.Player(bbg, (Width/2), ((Height/2) - (TileSize/2)), TileSize, TileSize, PlayerDirection);
 		
 		//The GUI would go here
-		
+		Render.GUI(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.
+		if(MenuOpen){Render.GUIMenu(bbg, Width/2, Height/2, TileSize, TileSize);} // The Game MEnu
 		//This just swaps the buffers
 		g.drawImage(backBuffer, 0, 0, this); 
 	}
