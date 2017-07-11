@@ -28,7 +28,6 @@ public class Main {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		window.setVisible(true); 
-		
 	}
 	
 }

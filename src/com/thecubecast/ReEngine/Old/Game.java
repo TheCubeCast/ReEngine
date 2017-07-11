@@ -1,8 +1,8 @@
-package com.thecubecast.ReEngine.Main;
+package com.thecubecast.ReEngine.Old;
 
 import com.thecubecast.ReEngine.Data.Common;
 import com.thecubecast.ReEngine.Data.JukeBox;
-import com.thecubecast.ReEngine.Main.InputHandler; 
+import com.thecubecast.ReEngine.Old.InputHandler; 
 import com.thecubecast.ReEngine.Graphics.Draw;
 
 import java.awt.*;
@@ -153,7 +153,7 @@ public class Game extends JFrame {
 		
 		//The bottom layer
 		//Draw the background here
-		Render.Background(bbg, Width, Height);
+		Render.DrawBackground(bbg, Width, Height);
 		
 		//The Tiles are being drawn on this "Layer"
 		//A function that reads the map file, then places each tile on the screen

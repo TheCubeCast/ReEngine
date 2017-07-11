@@ -2,6 +2,7 @@ package com.thecubecast.ReEngine.Graphics;
 
 import com.thecubecast.ReEngine.Data.Common;
 import com.thecubecast.ReEngine.Data.Map;
+import com.thecubecast.ReEngine.Window.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -55,7 +56,7 @@ public class Draw {
         }
 	}
 	
-	public void Background(Graphics buffer, int x, int y) {
+	public void DrawBackground(Graphics buffer, int x, int y) {
 		buffer.drawImage(Tiles[07], 0, 0, x, y, null);
 	}
 	
@@ -81,6 +82,9 @@ public class Draw {
 				buffer.drawImage(Tiles[00], (i - 200)*40 - OffsetX, 180 - OffsetY, TileSize, TileSize, null);
 			}
 		}
+	}
+	
+public void DrawTilesForeground(Graphics buffer, int OffsetX, int OffsetY, int TileSize, int WorldSize) {
 		buffer.drawImage(Tiles[03], 0 - OffsetX, -20 - OffsetY, TileSize, TileSize, null); // one of the grass decorations
 		buffer.drawImage(Tiles[03], 4*TileSize - OffsetX, -20 - OffsetY, TileSize, TileSize, null); // one of the grass decorations
 		buffer.drawImage(Tiles[03], 8*TileSize - OffsetX, -20 - OffsetY, TileSize, TileSize, null); // one of the grass decorations

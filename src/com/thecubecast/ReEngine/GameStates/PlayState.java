@@ -15,8 +15,10 @@ public class PlayState extends GameState {
 	
 	private int TileSize = 40; //This is the size of each tile, aswell as how far the camera moves per "turn"
 	private int WorldSize = 200; //radius expanding from the origin point (0,0) of the world
-	private int cameraX = 240;
-	private int cameraY = -600;
+	private int PlayerPosX = 0;
+	private int PlayerPosY = 0;
+	private int cameraX = 0;
+	private int cameraY = 0;
 	
 	private int PlayerDirection = 4;
 	private boolean MenuOpen = false;
@@ -34,6 +36,9 @@ public class PlayState extends GameState {
 	
 	
 	public void update() {
+		
+		//Moves the player on the map
+		
 		if(Keys.isPressed(Keys.ESCAPE)) { 
 			MenuOpen = !MenuOpen;
 			Common.sleep(50);
@@ -48,12 +53,21 @@ public class PlayState extends GameState {
 						Common.sleep(5);	
 					}
 					else {
-						cameraX += TileSize; 
-						Common.sleep(10);		
+						cameraX += TileSize/5; 
+						Common.sleep(2);
+						cameraX += TileSize/5; 
+						Common.sleep(2);
+						cameraX += TileSize/5; 
+						Common.sleep(2);	
+						cameraX += TileSize/5; 
+						Common.sleep(2);	
+						cameraX += TileSize/5; 
+						Common.sleep(2);	
 					}
 				}
 			} 
-			else if (Keys.isDown(Keys.LEFT)) 
+			
+			if (Keys.isDown(Keys.LEFT)) 
 			{ 
 				if (Keys.isDown(Keys.RIGHT)) {}
 				else {
@@ -62,29 +76,44 @@ public class PlayState extends GameState {
 						Common.sleep(5);	
 					}
 					else {
-						cameraX -= TileSize; 
-						Common.sleep(10);		
+						cameraX -= TileSize/5;
+						Common.sleep(2);	
+						cameraX -= TileSize/5;
+						Common.sleep(2);	
+						cameraX -= TileSize/5;
+						Common.sleep(2);	
+						cameraX -= TileSize/5;
+						Common.sleep(2);	
+						cameraX -= TileSize/5;
+						Common.sleep(2);		
 					}
 				}
 			}
-			else if (Keys.isDown(Keys.UP)) 
+			
+			if (Keys.isDown(Keys.UP)) 
 			{ 
 				if (Keys.isDown(Keys.DOWN)) {}
 				else {
-					if (Keys.isDown(Keys.RIGHT)) {}
+					if (PlayerDirection != 1) {
+						PlayerDirection = 1;
+						Common.sleep(5);	
+					}
 					else {
-						if (PlayerDirection != 1) {
-							PlayerDirection = 1;
-							Common.sleep(5);	
-						}
-						else {
-							cameraY -= TileSize;
-							Common.sleep(10);		
-						}
+						cameraY -= TileSize/5;
+						Common.sleep(2);	
+						cameraY -= TileSize/5;
+						Common.sleep(2);
+						cameraY -= TileSize/5;
+						Common.sleep(2);
+						cameraY -= TileSize/5;
+						Common.sleep(2);
+						cameraY -= TileSize/5;
+						Common.sleep(2);
 					}
 				}
-			} 
-			else if (Keys.isDown(Keys.DOWN)) 
+			}
+			
+			if (Keys.isDown(Keys.DOWN)) 
 			{ 
 				if (Keys.isDown(Keys.UP)) {}
 				else {
@@ -93,12 +122,25 @@ public class PlayState extends GameState {
 						Common.sleep(5);	
 					}
 					else {
-						cameraY += TileSize; 
-						Common.sleep(10);		
+						cameraY += TileSize/5; 
+						Common.sleep(2);
+						cameraY += TileSize/5; 
+						Common.sleep(2);
+						cameraY += TileSize/5; 
+						Common.sleep(2);
+						cameraY += TileSize/5; 
+						Common.sleep(2);
+						cameraY += TileSize/5; 
+						Common.sleep(2);
 					}
 				}
 			} 
 		}
+		
+		//This is were the camera location is updated
+		//Camera tracks to the players pos, instead of placing the player on the middle of the screen non-relative to the map layout
+		//cameraX = WIDTH/2; // Put PlayerPosX in the middle of the screen
+		//cameraY = HEIGHT/2; // Put PlayerPosY in the middle of the screen
 		
 		//IF STATEMENT THAT WILL BE PUT HERE WHEN INPUT HANDLING IS FIXED
 		//IT WILL QUIT THE GAME
@@ -120,7 +162,7 @@ public class PlayState extends GameState {
 		
 		//The bottom layer
 		//Draw the background here
-		gsm.Render.Background(bbg, WIDTH, HEIGHT);
+		gsm.Render.DrawBackground(bbg, WIDTH, HEIGHT);
 		
 		//The Tiles are being drawn on this "Layer"
 		//A function that reads the map file, then places each tile on the screen
@@ -129,6 +171,9 @@ public class PlayState extends GameState {
 		
 		//The "Player" and other entities or overlays must be drawn last. Think top layer 
 		gsm.Render.Player(bbg, (WIDTH/2), ((HEIGHT/2) - (TileSize/2)), TileSize, TileSize, PlayerDirection);
+		
+		// Draws the Foreground
+		gsm.Render.DrawTilesForeground(bbg, cameraX, cameraY, TileSize, WorldSize);
 		
 		//The GUI would go here
 		gsm.Render.GUI(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.

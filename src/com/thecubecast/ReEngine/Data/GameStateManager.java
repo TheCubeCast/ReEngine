@@ -39,7 +39,7 @@ public class GameStateManager {
 		Render.Init();
 		
 		gameStates = new GameState[NUM_STATES];
-		setState(PLAY); //THIS IS THE STATE WERE WE START WHEN THE GAME IS RUN
+		setState(INTRO); //THIS IS THE STATE WERE WE START WHEN THE GAME IS RUN
 		
 	}
 	

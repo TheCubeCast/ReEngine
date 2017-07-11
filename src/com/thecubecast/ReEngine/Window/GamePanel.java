@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -96,11 +97,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		BackBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		g = (Graphics2D) BackBuffer.getGraphics();
 		gsm = new GameStateManager();
+		Common.print("Screen Height is " + HEIGHT + " and Width is " + WIDTH + ".");
 	}
 	
 	// updates game
 	private void update() {
 		gsm.update();
+		
 	}
 	
 	// draws game
@@ -115,6 +118,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		g2.dispose();
 	}
 	
+	//Mouse Event
+	 public void mousePressed(MouseEvent e) {
+		 Common.print("Mouse pressed; # of clicks: " + e.getClickCount());
+	 }
+	 
+	 public void mouseReleased(MouseEvent e) {
+	      Common.print("Mouse released; # of clicks: " + e.getClickCount());
+	 }
+	public int getmousePosX() {
+		int X = 0;
+		return X;
+	}
+	public int getmousePosY() {
+		int Y = 0;
+		return Y;
+	}
 	
 	// key event
 	public void keyTyped(KeyEvent key) {}
