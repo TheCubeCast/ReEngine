@@ -6,6 +6,7 @@
 package com.thecubecast.ReEngine.GameStates;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 import com.thecubecast.ReEngine.Data.GameStateManager;
 
@@ -19,6 +20,6 @@ public abstract class GameState {
 	
 	public abstract void init();
 	public abstract void update();
-	public abstract void draw(Graphics2D g);
+	public abstract void draw(Graphics2D g, int width, int height);
 	
 }

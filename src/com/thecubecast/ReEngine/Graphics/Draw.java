@@ -23,7 +23,7 @@ public class Draw {
 					Tiles[i] = ImageIO.read(getClass().getResourceAsStream("/Sprites/megaminer_"+ Integer.toString(i) +".png"));
 				}
 				catch(Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			} else {
 				try {
@@ -31,7 +31,7 @@ public class Draw {
 					Tiles[i] = ImageIO.read(getClass().getResourceAsStream("/Sprites/megaminer_0"+ Integer.toString(i) +".png"));
 				}
 				catch(Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
         }
@@ -42,7 +42,7 @@ public class Draw {
 					Images[i] = ImageIO.read(getClass().getResourceAsStream("/Images/image_"+ Integer.toString(i) +".png"));
 				}
 				catch(Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			} else {
 				try {
@@ -50,10 +50,14 @@ public class Draw {
 					Images[i] = ImageIO.read(getClass().getResourceAsStream("/Images/image_0"+ Integer.toString(i) +".png"));
 				}
 				catch(Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
         }
+	}
+	
+	public void DrawAny(Graphics buffer, int ID,int x, int y) {
+		buffer.drawImage(Tiles[ID], x, y, 40, 40, null);
 	}
 	
 	public void DrawBackground(Graphics buffer, int x, int y) {

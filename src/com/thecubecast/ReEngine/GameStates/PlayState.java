@@ -5,16 +5,17 @@ import com.thecubecast.ReEngine.Data.GameStateManager;
 import com.thecubecast.ReEngine.Data.JukeBox;
 import com.thecubecast.ReEngine.Data.Keys;
 import com.thecubecast.ReEngine.Window.GamePanel;
+import com.thecubecast.ReEngine.Window.Main;
 import com.thecubecast.ReEngine.Graphics.Draw;
 
 import java.awt.*;
 
 public class PlayState extends GameState {	
-	int HEIGHT = GamePanel.HEIGHT;
-	int WIDTH = GamePanel.WIDTH;
 	
 	private int TileSize = 40; //This is the size of each tile, aswell as how far the camera moves per "turn"
 	private int WorldSize = 200; //radius expanding from the origin point (0,0) of the world
+	//private int MousePosX = 0;
+	//private int MousePosY = 0;
 	private int PlayerPosX = 0;
 	private int PlayerPosY = 0;
 	private int cameraX = 0;
@@ -36,6 +37,12 @@ public class PlayState extends GameState {
 	
 	
 	public void update() {
+		
+		//save the mouse pos to variables 
+	//	Common.print(MouseInfo.getPointerInfo().getLocation().toString());
+	//	MousePosX = (int) MouseInfo.getPointerInfo().getLocation().getX();
+	//	MousePosY = (int) MouseInfo.getPointerInfo().getLocation().getY();
+		
 		
 		//Moves the player on the map
 		
@@ -148,21 +155,20 @@ public class PlayState extends GameState {
 	}
 
 	
-	public void draw(Graphics2D bbg) {
+	public void draw(Graphics2D bbg, int width, int height) {
 		
 		/**
 		 * To use the camera
 		 * Subtract the location of the sprite by the cameras position.
 		 */
-		
 		//This sets up the FPS and important stuff
 		//Clears the screen each frame, Avoiding Artifacts
 		bbg.setColor(Color.WHITE);
-		bbg.fillRect(0, 0, WIDTH, HEIGHT);
+		bbg.fillRect(0, 0, width, height);
 		
 		//The bottom layer
 		//Draw the background here
-		gsm.Render.DrawBackground(bbg, WIDTH, HEIGHT);
+		gsm.Render.DrawBackground(bbg, width, height);
 		
 		//The Tiles are being drawn on this "Layer"
 		//A function that reads the map file, then places each tile on the screen
@@ -170,14 +176,16 @@ public class PlayState extends GameState {
 		gsm.Render.DrawTiles(bbg, cameraX, cameraY, TileSize, WorldSize);
 		
 		//The "Player" and other entities or overlays must be drawn last. Think top layer 
-		gsm.Render.Player(bbg, (WIDTH/2), ((HEIGHT/2) - (TileSize/2)), TileSize, TileSize, PlayerDirection);
+		gsm.Render.Player(bbg, (width/2), ((height/2) - (TileSize/2)), TileSize, TileSize, PlayerDirection);
 		
 		// Draws the Foreground
 		gsm.Render.DrawTilesForeground(bbg, cameraX, cameraY, TileSize, WorldSize);
 		
 		//The GUI would go here
 		gsm.Render.GUI(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.
-		if(MenuOpen){gsm.Render.GUIMenu(bbg, WIDTH/2, HEIGHT/2, TileSize, TileSize);} // The Game MEnu
+		if(MenuOpen){gsm.Render.GUIMenu(bbg, width/2, height/2, TileSize, TileSize);} // The Game MEnu
+		
+		//gsm.Render.DrawAny(bbg, 03, MousePosX, MousePosY);
 	}
 
 }

@@ -5,12 +5,10 @@
 
 package com.thecubecast.ReEngine.Window;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -25,8 +23,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// dimensions
 	// HEIGHT is the playing area size
 	// HEIGHT2 includes the bottom window
-	public static final int WIDTH = Common.GetMonitorSizeW();
-	public static final int HEIGHT = Common.GetMonitorSizeH();
+	public int WIDTH = 1936;
+	public int HEIGHT = 1176;
 	
 	// game loop stuff
 	private Thread thread;
@@ -45,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public GamePanel() {
 		setFocusable(true);
 		requestFocus();
+		SizeChange(WIDTH, HEIGHT, false);
 	}
 	
 	// ready to display
@@ -94,21 +93,27 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// initializes fields
 	private void init() {
 		running = true;
+		HEIGHT = getSize().height;
+		WIDTH = getSize().width;
 		BackBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		g = (Graphics2D) BackBuffer.getGraphics();
 		gsm = new GameStateManager();
-		Common.print("Screen Height is " + HEIGHT + " and Width is " + WIDTH + ".");
+		Common.print("Window Width is " + WIDTH + " and Height is " + HEIGHT + ".");
 	}
 	
 	// updates game
 	private void update() {
+		
+		HEIGHT = getSize().height;
+		WIDTH = getSize().width;
+		//Common.print("W: " + WIDTH + " and H: " + HEIGHT );
 		gsm.update();
 		
 	}
 	
 	// draws game
 	private void draw() {
-		gsm.draw(g);
+		gsm.draw(g, HEIGHT, WIDTH);
 	}
 	
 	// copy buffer to screen
@@ -118,23 +123,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		g2.dispose();
 	}
 	
-	//Mouse Event
-	 public void mousePressed(MouseEvent e) {
-		 Common.print("Mouse pressed; # of clicks: " + e.getClickCount());
-	 }
-	 
-	 public void mouseReleased(MouseEvent e) {
-	      Common.print("Mouse released; # of clicks: " + e.getClickCount());
-	 }
-	public int getmousePosX() {
-		int X = 0;
-		return X;
-	}
-	public int getmousePosY() {
-		int Y = 0;
-		return Y;
-	}
-	
 	// key event
 	public void keyTyped(KeyEvent key) {}
 	public void keyPressed(KeyEvent key) {
@@ -142,5 +130,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	}
 	public void keyReleased(KeyEvent key) {
 		Keys.keySet(key.getKeyCode(), false);
+	}
+	
+	public void SizeChange(int W, int H, boolean Print) {
+		setSize(W, H);
+		if (Print) {
+			Common.print("JPanel was resized to W: " + W + " by H: " + H);
+			Common.print("JPanel is W: " + getSize().width + " by H: " + getSize().height);
+		}
 	}
 }
