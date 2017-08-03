@@ -10,8 +10,10 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import com.thecubecast.ReEngine.Window.GamePanel;
-import com.thecubecast.ReEngine.Data.Keys;
+
 import com.thecubecast.ReEngine.Data.Common;
+
+import com.thecubecast.ReEngine.Data.Keys;
 import com.thecubecast.ReEngine.Data.GameStateManager;
 import com.thecubecast.ReEngine.Data.JukeBox;
 

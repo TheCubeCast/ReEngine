@@ -1,8 +1,9 @@
 package com.thecubecast.ReEngine.Graphics;
 
-import com.thecubecast.ReEngine.Data.Common;
 import com.thecubecast.ReEngine.Data.Map;
 import com.thecubecast.ReEngine.Window.GamePanel;
+
+import com.thecubecast.ReEngine.Data.Common;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

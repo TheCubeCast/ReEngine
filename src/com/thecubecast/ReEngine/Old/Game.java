@@ -1,8 +1,10 @@
 package com.thecubecast.ReEngine.Old;
 
-import com.thecubecast.ReEngine.Data.Common;
 import com.thecubecast.ReEngine.Data.JukeBox;
-import com.thecubecast.ReEngine.Old.InputHandler; 
+import com.thecubecast.ReEngine.Old.InputHandler;
+
+import com.thecubecast.ReEngine.Data.Common;
+
 import com.thecubecast.ReEngine.Graphics.Draw;
 
 import java.awt.*;

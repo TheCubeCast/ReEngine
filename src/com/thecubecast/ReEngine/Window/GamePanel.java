@@ -7,6 +7,8 @@ package com.thecubecast.ReEngine.Window;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -14,7 +16,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import com.thecubecast.ReEngine.Data.Keys;
+
 import com.thecubecast.ReEngine.Data.Common;
+
 import com.thecubecast.ReEngine.Data.GameStateManager;
 
 @SuppressWarnings("serial")
@@ -23,8 +27,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// dimensions
 	// HEIGHT is the playing area size
 	// HEIGHT2 includes the bottom window
-	public int WIDTH = 1936;
-	public int HEIGHT = 1176;
+	public int WIDTH = getSize().width;
+	public int HEIGHT = getSize().height;
 	
 	// game loop stuff
 	private Thread thread;
@@ -41,9 +45,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	// constructor
 	public GamePanel() {
+		addComponentListener(new WindowListener());
 		setFocusable(true);
 		requestFocus();
-		SizeChange(WIDTH, HEIGHT, false);
 	}
 	
 	// ready to display
@@ -93,23 +97,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// initializes fields
 	private void init() {
 		running = true;
-		HEIGHT = getSize().height;
-		WIDTH = getSize().width;
-		BackBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		HEIGHT = getHeight();
+		WIDTH = getWidth();
+		Common.print("Panel Size initialized to " + WIDTH + " X " + HEIGHT + ".");
+		while (HEIGHT == 0 | WIDTH == 0) {
+			Common.sleep(20);
+			HEIGHT = getHeight();
+			WIDTH = getWidth();
+		}
+		BackBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB); 
 		g = (Graphics2D) BackBuffer.getGraphics();
 		gsm = new GameStateManager();
-		Common.print("Window Width is " + WIDTH + " and Height is " + HEIGHT + ".");
+		Common.print("Panel Size is " + WIDTH + " X " + HEIGHT + ".");
 	}
 	
 	// updates game
-	private void update() {
-		
-		HEIGHT = getSize().height;
-		WIDTH = getSize().width;
-		//Common.print("W: " + WIDTH + " and H: " + HEIGHT );
-		gsm.update();
-		
-	}
+		private void update() {
+			gsm.update();
+			//Common.print("W: " + WIDTH + " and H: " + HEIGHT );
+			
+		}
 	
 	// draws game
 	private void draw() {
@@ -123,6 +130,31 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		g2.dispose();
 	}
 	
+	public class WindowListener implements ComponentListener {
+		
+		@Override
+		public void componentHidden(ComponentEvent e) {
+			//if the window was minimized
+		}
+	
+		@Override
+		public void componentMoved(ComponentEvent e) {
+			//Who cares	
+		}
+	
+		public void componentResized(ComponentEvent e) {
+			HEIGHT = getHeight();
+			WIDTH = getWidth();
+			Common.print("JPanel resized to W: " + e.getComponent().getWidth() + " by H: " + e.getComponent().getHeight());
+		}
+	
+		@Override
+		public void componentShown(ComponentEvent e) {
+			//If the window was restored
+		}
+			
+	}
+
 	// key event
 	public void keyTyped(KeyEvent key) {}
 	public void keyPressed(KeyEvent key) {
@@ -130,13 +162,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	}
 	public void keyReleased(KeyEvent key) {
 		Keys.keySet(key.getKeyCode(), false);
-	}
-	
-	public void SizeChange(int W, int H, boolean Print) {
-		setSize(W, H);
-		if (Print) {
-			Common.print("JPanel was resized to W: " + W + " by H: " + H);
-			Common.print("JPanel is W: " + getSize().width + " by H: " + getSize().height);
-		}
 	}
 }

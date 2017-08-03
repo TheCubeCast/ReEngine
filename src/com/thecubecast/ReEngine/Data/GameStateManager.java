@@ -18,6 +18,8 @@ import com.thecubecast.ReEngine.GameStates.TestState;
 import com.thecubecast.ReEngine.GameStates.PlayState;
 import com.thecubecast.ReEngine.Graphics.Draw;
 
+import com.thecubecast.ReEngine.Data.Common;
+
 public class GameStateManager {
 	
 	private GameState[] gameStates;
@@ -41,7 +43,7 @@ public class GameStateManager {
 		Render.Init();
 		
 		gameStates = new GameState[NUM_STATES];
-		setState(INTRO); //THIS IS THE STATE WERE WE START WHEN THE GAME IS RUN
+		setState(PLAY); //THIS IS THE STATE WERE WE START WHEN THE GAME IS RUN
 		
 	}
 	
