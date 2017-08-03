@@ -12,8 +12,9 @@ public class PlayState extends GameState {
 	
 	private int TileSize = 40; //This is the size of each tile, aswell as how far the camera moves per "turn"
 	private int WorldSize = 200; //radius expanding from the origin point (0,0) of the world
-	//private int MousePosX = 0;
-	//private int MousePosY = 0;
+	private int MousePosX;
+	private int MousePosY;
+	private boolean MouseDrag;
 	private int PlayerPosX = 0;
 	private int PlayerPosY = 0;
 	private int cameraX = 0;
@@ -36,18 +37,20 @@ public class PlayState extends GameState {
 	
 	public void update() {
 		
-		//save the mouse pos to variables 
-	//	Common.print(MouseInfo.getPointerInfo().getLocation().toString());
-	//	MousePosX = (int) MouseInfo.getPointerInfo().getLocation().getX();
-	//	MousePosY = (int) MouseInfo.getPointerInfo().getLocation().getY();
+		MousePosX = gsm.MouseX;
+		MousePosY = gsm.MouseY;
+		MouseDrag = gsm.MouseDrag;
 		
+		if (MouseDrag) {
+			Common.print("Mouse draging at " + MousePosX + " " + MousePosY);
+		}
 		
 		//Moves the player on the map
 		
 		if(Keys.isPressed(Keys.ESCAPE)) { 
 			MenuOpen = !MenuOpen;
 			Common.sleep(50);
-		} 
+		} else {}
 		
 		if (!MenuOpen) {
 			if(Keys.isDown(Keys.RIGHT)) { 
@@ -183,7 +186,7 @@ public class PlayState extends GameState {
 		gsm.Render.GUI(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.
 		if(MenuOpen){gsm.Render.GUIMenu(bbg, width/2, height/2, TileSize, TileSize);} // The Game MEnu
 		
-		//gsm.Render.DrawAny(bbg, 03, MousePosX, MousePosY);
+		gsm.Render.DrawAny(bbg, 03, MousePosX, MousePosY);
 	}
 
 }

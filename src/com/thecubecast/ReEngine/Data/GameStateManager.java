@@ -27,6 +27,11 @@ public class GameStateManager {
 	private int previousState;
 	public Draw Render;
 	
+	//MousePos
+	public int MouseX;
+	public int MouseY;
+	public boolean MouseDrag;
+	
 	public static final int NUM_STATES = 6;
 	public static final int INTRO = 0;
 	public static final int MENU = 1;
@@ -43,7 +48,7 @@ public class GameStateManager {
 		Render.Init();
 		
 		gameStates = new GameState[NUM_STATES];
-		setState(PLAY); //THIS IS THE STATE WERE WE START WHEN THE GAME IS RUN
+		setState(INTRO); //THIS IS THE STATE WERE WE START WHEN THE GAME IS RUN
 		
 	}
 	
@@ -90,8 +95,10 @@ public class GameStateManager {
 		gameStates[i] = null;
 	}
 	
-	public void update() {
-		//CCommon.print("W: " + WIDTH + " and H: " + HEIGHT );
+	public void update(int MousX, int MousY, boolean Draging) {
+		MouseX = MousX;
+		MouseY = MousY;
+		MouseDrag = Draging;
 		if(gameStates[currentState] != null) {
 			
 			gameStates[currentState].update();

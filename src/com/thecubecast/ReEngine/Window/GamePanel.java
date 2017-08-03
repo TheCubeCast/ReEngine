@@ -11,6 +11,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -22,13 +25,18 @@ import com.thecubecast.ReEngine.Data.Common;
 import com.thecubecast.ReEngine.Data.GameStateManager;
 
 @SuppressWarnings("serial")
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener {
 	
 	// dimensions
 	// HEIGHT is the playing area size
 	// HEIGHT2 includes the bottom window
 	public int WIDTH = getSize().width;
 	public int HEIGHT = getSize().height;
+	
+	//Mouse Position in the window
+	public int MouseX;
+	public int MouseY;
+	public boolean MouseDrag;
 	
 	// game loop stuff
 	private Thread thread;
@@ -55,6 +63,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		super.addNotify();
 		if(thread == null) {
 			addKeyListener(this);
+			addMouseListener(this);
+			addMouseMotionListener(this);
 			thread = new Thread(this);
 			thread.start();
 		}
@@ -113,7 +123,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	// updates game
 		private void update() {
-			gsm.update();
+			gsm.update(MouseX, MouseY, MouseDrag);
 			//Common.print("W: " + WIDTH + " and H: " + HEIGHT );
 			
 		}
@@ -129,6 +139,39 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		g2.drawImage(BackBuffer, 0, 0, WIDTH, HEIGHT, null);
 		g2.dispose();
 	}
+
+	// key event
+	public void keyTyped(KeyEvent key) {}
+	public void keyPressed(KeyEvent key) {
+		Keys.keySet(key.getKeyCode(), true);
+	}
+	public void keyReleased(KeyEvent key) {
+		Keys.keySet(key.getKeyCode(), false);
+	}
+
+	//Mouse Events
+	public void mouseClicked(MouseEvent e) {
+		Common.print("Mouse Clicked at " + e.getX() + " " + e.getY());
+	}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+		MouseDrag = false;
+		Common.print("Released mouse at " + e.getX() + " " + e.getY());
+	}
+	public void mouseDragged(MouseEvent e) {
+		MouseDrag = true;
+		MouseX = e.getX();
+		MouseY = e.getY();
+	}
+	public void mouseMoved(MouseEvent e) {
+		MouseDrag = false;
+		MouseX = e.getX();
+		MouseY = e.getY();
+		Common.print("Mouse is at " + e.getX() + " " + e.getY());
+		
+	}
 	
 	public class WindowListener implements ComponentListener {
 		
@@ -141,11 +184,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		public void componentMoved(ComponentEvent e) {
 			//Who cares	
 		}
-	
+		
+		@Override
 		public void componentResized(ComponentEvent e) {
 			HEIGHT = getHeight();
 			WIDTH = getWidth();
 			Common.print("JPanel resized to W: " + e.getComponent().getWidth() + " by H: " + e.getComponent().getHeight());
+			
 			if (BackBuffer.getWidth() != WIDTH | BackBuffer.getHeight() != HEIGHT) {
 				BackBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 				g = (Graphics2D) BackBuffer.getGraphics();
@@ -157,14 +202,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			//If the window was restored
 		}
 			
-	}
-
-	// key event
-	public void keyTyped(KeyEvent key) {}
-	public void keyPressed(KeyEvent key) {
-		Keys.keySet(key.getKeyCode(), true);
-	}
-	public void keyReleased(KeyEvent key) {
-		Keys.keySet(key.getKeyCode(), false);
 	}
 }

@@ -4,12 +4,6 @@ package com.thecubecast.ReEngine.GameStates;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
-
-import com.thecubecast.ReEngine.Window.GamePanel;
 
 import com.thecubecast.ReEngine.Data.Common;
 
