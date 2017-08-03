@@ -146,6 +146,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			HEIGHT = getHeight();
 			WIDTH = getWidth();
 			Common.print("JPanel resized to W: " + e.getComponent().getWidth() + " by H: " + e.getComponent().getHeight());
+			if (BackBuffer.getWidth() != WIDTH | BackBuffer.getHeight() != HEIGHT) {
+				BackBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+				g = (Graphics2D) BackBuffer.getGraphics();
+			}
 		}
 	
 		@Override
