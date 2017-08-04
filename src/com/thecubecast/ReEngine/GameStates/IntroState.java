@@ -52,9 +52,14 @@ public class IntroState extends GameState {
 	}
 	
 	public void draw(Graphics2D g, int width, int height) {
+		int SizeW = 1373;
+		int SizeH = 341;
+		int PosX = width/2 - SizeW/2;
+		int PoxY = height/2 - SizeH/2;
+		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
-		g.drawImage(gsm.Render.Images[00], width/3, height/2, 1481/2, 341/2, null);
+		g.drawImage(gsm.Render.Images[00], PosX, PoxY, SizeW, SizeH, null);
 		g.setColor(new Color(0, 0, 0, alpha));
 		g.fillRect(0, 0, width, height);
 	}
