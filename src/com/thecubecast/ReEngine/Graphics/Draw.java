@@ -1,12 +1,13 @@
 package com.thecubecast.ReEngine.Graphics;
 
-import com.thecubecast.ReEngine.Data.Map;
 import com.thecubecast.ReEngine.Window.GamePanel;
 
 import com.thecubecast.ReEngine.Data.Common;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+
 import javax.imageio.ImageIO;
 
 public class Draw {
@@ -55,6 +56,15 @@ public class Draw {
 				}
 			}
         }
+
+		try {
+			GraphicsEnvironment ge = 
+			         GraphicsEnvironment.getLocalGraphicsEnvironment();
+			     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/Munro.ttf")));
+		}
+		catch(Exception e) {
+			//e.printStackTrace();
+		}
 	}
 	
 	public void DrawAny(Graphics buffer, int ID,int x, int y) {
@@ -62,40 +72,37 @@ public class Draw {
 	}
 	
 	public void DrawBackground(Graphics buffer, int x, int y) {
+		//Function is responsible for drawing the backgrounds, behind the tiles
 		buffer.drawImage(Tiles[07], 0, 0, x, y, null);
 	}
 	
-	
 	//Renders the tiles across the world
 	public void DrawTiles(Graphics buffer, int OffsetX, int OffsetY, int TileSize, int WorldSize) {
-	
+	//Function is for drawing the main tiles
 		
-		for(int i=0; i < 60; ++i){  //draws the top layer of grass
-			buffer.drawImage(Tiles[01], i*40 - OffsetX, 20 - OffsetY, TileSize, TileSize, null);
-		}
-		for(int i=0; i < 260; ++i){  //draws the dirt
-			if (i < 60) {
-				buffer.drawImage(Tiles[00], i*40 - OffsetX, 60 - OffsetY, TileSize, TileSize, null);
-			}
-			else if (i >= 60 && i < 120){
-				buffer.drawImage(Tiles[00], (i - 60)*40 - OffsetX, 100 - OffsetY, TileSize, TileSize, null);
-			}
-			else if (i >= 120 && i < 200){ 
-				buffer.drawImage(Tiles[00], (i - 120)*40 - OffsetX, 140 - OffsetY, TileSize, TileSize, null);
-			}
-			else if (i >= 200 && i < 260){ 
-				buffer.drawImage(Tiles[00], (i - 200)*40 - OffsetX, 180 - OffsetY, TileSize, TileSize, null);
-			}
-		}
+		
+		
+	//	for(int i=0; i < 60; ++i){  //draws the top layer of grass
+	//		buffer.drawImage(Tiles[01], i*40 - OffsetX, 20 - OffsetY, TileSize, TileSize, null);
+	//	}
+	//	for(int i=0; i < 260; ++i){  //draws the dirt
+	//		if (i < 60) {
+	//			buffer.drawImage(Tiles[00], i*40 - OffsetX, 60 - OffsetY, TileSize, TileSize, null);
+	//		}
+	//		else if (i >= 60 && i < 120){
+	//			buffer.drawImage(Tiles[00], (i - 60)*40 - OffsetX, 100 - OffsetY, TileSize, TileSize, null);
+	//		}
+	//		else if (i >= 120 && i < 200){ 
+	//			buffer.drawImage(Tiles[00], (i - 120)*40 - OffsetX, 140 - OffsetY, TileSize, TileSize, null);
+	//		}
+	//		else if (i >= 200 && i < 260){ 
+	//			buffer.drawImage(Tiles[00], (i - 200)*40 - OffsetX, 180 - OffsetY, TileSize, TileSize, null);
+	//		}
+	//	}
 	}
 	
 public void DrawTilesForeground(Graphics buffer, int OffsetX, int OffsetY, int TileSize, int WorldSize) {
-		buffer.drawImage(Tiles[03], 0 - OffsetX, -20 - OffsetY, TileSize, TileSize, null); // one of the grass decorations
-		buffer.drawImage(Tiles[03], 4*TileSize - OffsetX, -20 - OffsetY, TileSize, TileSize, null); // one of the grass decorations
-		buffer.drawImage(Tiles[03], 8*TileSize - OffsetX, -20 - OffsetY, TileSize, TileSize, null); // one of the grass decorations
-		buffer.drawImage(Tiles[03], 24*TileSize - OffsetX, -20 - OffsetY, TileSize, TileSize, null); // one of the grass decorations
-		buffer.drawImage(Tiles[03], 2*TileSize - OffsetX, -20 - OffsetY, TileSize, TileSize, null); // one of the grass decorations
-		buffer.drawImage(Tiles[02], 18*TileSize - OffsetX, -20 - OffsetY, TileSize, TileSize, null); // a flower
+		//Function is for drawing the tiles that go in front of the player layer wise
 	}
 	
 	//This will handle the animations as well

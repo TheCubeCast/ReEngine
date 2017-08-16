@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import com.thecubecast.ReEngine.Data.Common;
 
 import com.thecubecast.ReEngine.Data.Keys;
+import com.thecubecast.ReEngine.Data.ReadWrite;
 import com.thecubecast.ReEngine.Data.GameStateManager;
 import com.thecubecast.ReEngine.Data.JukeBox;
 
@@ -20,6 +21,8 @@ public class IntroState extends GameState {
 	private int alpha;
 	private int ticks;
 	
+	public ReadWrite Io_;
+	
 	private final int FADE_IN = 20;
 	private final int LENGTH = 20;
 	private final int FADE_OUT = 20;
@@ -29,6 +32,12 @@ public class IntroState extends GameState {
 	}
 	
 	public void init() {
+		Io_ = new ReadWrite();
+		//Io_.LoadSettings().toString();
+		Io_.CreateDirectories();
+		Io_.CreateSave("Test");
+		int id[] = new int[] {0,1};
+		Io_.CreateChunk("Test", id, 16);
 		ticks = 0;
 		//JukeBox.load("/Music/bgmusic.wav", "LogoSound");
 		//JukeBox.play("LogoSound");
@@ -36,7 +45,7 @@ public class IntroState extends GameState {
 	
 	public void update() {
 		handleInput();
-		ticks++;
+		ticks = gsm.Tics;
 		if(ticks < FADE_IN) {
 			alpha = (int) (255 - 255 * (1.0 * ticks / FADE_IN));
 			if(alpha < 0) alpha = 0;
@@ -47,6 +56,7 @@ public class IntroState extends GameState {
 		}
 		if(ticks > FADE_IN + LENGTH + FADE_OUT) {
 			//JukeBox.stop("LogoSound");
+			gsm.Render.Images[00] = null;
 			gsm.setState(GameStateManager.MENU);
 		}
 	}
@@ -67,6 +77,7 @@ public class IntroState extends GameState {
 	public void handleInput() {
 		if(Keys.isPressed(Keys.ENTER)) {
 			//JukeBox.stop("LogoSound");
+			gsm.Render.Images[00] = null;
 			gsm.setState(GameStateManager.MENU);
 		}
 	}

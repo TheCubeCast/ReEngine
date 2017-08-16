@@ -8,6 +8,7 @@ import com.thecubecast.ReEngine.Data.Common;
 
 import java.awt.*;
 
+
 public class PlayState extends GameState {	
 	
 	private int TileSize = 40; //This is the size of each tile, aswell as how far the camera moves per "turn"
@@ -15,10 +16,23 @@ public class PlayState extends GameState {
 	private int MousePosX;
 	private int MousePosY;
 	private boolean MouseDrag;
-	private int PlayerPosX = 0;
-	private int PlayerPosY = 0;
+	//private int PlayerPosX = 0;
+	//private int PlayerPosY = 0;
 	private int cameraX = 0;
 	private int cameraY = 0;
+	
+	//only loading in 4 chunks from the chunk the player is in, in each direction
+	//Max Loaded chunks will be 16, Total of 4096 Tiles in memory
+	//Each chunk only stores 16X16 tiles
+	
+	//The chunks do not need to be held in a map, Calculate the chunks that need to be loaded
+	//If they are near the players pos, When the camera distance becomes < a set distance - Unload the chunk
+	// Load the chunk if the camera get > a set distance 
+	
+	//The chunks will be individual files for now Loading the chunk from file
+	//Save/update the chunk to file, then unload it from memory
+	
+	
 	
 	private int PlayerDirection = 4;
 	private boolean MenuOpen = false;
@@ -28,6 +42,10 @@ public class PlayState extends GameState {
 	}
 	
 	public void init() {
+		
+		
+		
+		
 		
 		JukeBox.load("/Music/bgmusic.wav", "introsound");
 		//JukeBox.loop("introsound");
@@ -186,7 +204,7 @@ public class PlayState extends GameState {
 		gsm.Render.GUI(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.
 		if(MenuOpen){gsm.Render.GUIMenu(bbg, width/2, height/2, TileSize, TileSize);} // The Game MEnu
 		
-		gsm.Render.DrawAny(bbg, 03, MousePosX, MousePosY);
+		gsm.Render.DrawAny(bbg, 00, MousePosX, MousePosY);
 	}
 
 }

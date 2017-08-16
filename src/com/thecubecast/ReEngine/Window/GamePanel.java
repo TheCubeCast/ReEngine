@@ -43,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	private boolean running;
 	private final int FPS = 120;
 	private final int TARGET_TIME = 1000 / FPS;
+	public int tics;
 	
 	// drawing stuff
 	private BufferedImage BackBuffer;
@@ -100,6 +101,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 				e.printStackTrace();
 			}
 			
+			tics++;
+			
 		}
 		
 	}
@@ -119,11 +122,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		g = (Graphics2D) BackBuffer.getGraphics();
 		gsm = new GameStateManager();
 		Common.print("Panel Size is " + WIDTH + " X " + HEIGHT + ".");
+		//Common.print("" + getAvailableFontFamilyNames());
 	}
 	
 	// updates game
 		private void update() {
-			gsm.update(MouseX, MouseY, MouseDrag);
+			gsm.update(MouseX, MouseY, MouseDrag, tics);
 			//Common.print("W: " + WIDTH + " and H: " + HEIGHT );
 			
 		}
@@ -158,7 +162,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {
 		MouseDrag = false;
-		Common.print("Released mouse at " + e.getX() + " " + e.getY());
+		//Common.print("Released mouse at " + e.getX() + " " + e.getY());
 	}
 	public void mouseDragged(MouseEvent e) {
 		MouseDrag = true;
@@ -169,7 +173,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		MouseDrag = false;
 		MouseX = e.getX();
 		MouseY = e.getY();
-		Common.print("Mouse is at " + e.getX() + " " + e.getY());
+		//Common.print("Mouse is at " + e.getX() + " " + e.getY());
 		
 	}
 	

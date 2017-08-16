@@ -32,6 +32,9 @@ public class GameStateManager {
 	public int MouseY;
 	public boolean MouseDrag;
 	
+	//FrameTics
+	public int Tics;
+	
 	public static final int NUM_STATES = 6;
 	public static final int INTRO = 0;
 	public static final int MENU = 1;
@@ -95,10 +98,11 @@ public class GameStateManager {
 		gameStates[i] = null;
 	}
 	
-	public void update(int MousX, int MousY, boolean Draging) {
+	public void update(int MousX, int MousY, boolean Draging, int TicZ) {
 		MouseX = MousX;
 		MouseY = MousY;
 		MouseDrag = Draging;
+		Tics = TicZ;
 		if(gameStates[currentState] != null) {
 			
 			gameStates[currentState].update();
