@@ -25,6 +25,10 @@ public class GameStateManager {
 	private GameState[] gameStates;
 	private int currentState;
 	private int previousState;
+	
+	
+	
+	//Public render function object
 	public Draw Render;
 	
 	//MousePos

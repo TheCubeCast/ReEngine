@@ -60,7 +60,7 @@ public class PlayState extends GameState {
 		MouseDrag = gsm.MouseDrag;
 		
 		if (MouseDrag) {
-			Common.print("Mouse draging at " + MousePosX + " " + MousePosY);
+			//Common.print("Mouse draging at " + MousePosX + " " + MousePosY);
 		}
 		
 		//Moves the player on the map

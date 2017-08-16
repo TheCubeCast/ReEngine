@@ -33,8 +33,6 @@ public class IntroState extends GameState {
 	
 	public void init() {
 		Io_ = new ReadWrite();
-		//Io_.LoadSettings().toString();
-		Io_.CreateDirectories();
 		Io_.CreateSave("Test");
 		int id[] = new int[] {0,1};
 		Io_.CreateChunk("Test", id, 16);
