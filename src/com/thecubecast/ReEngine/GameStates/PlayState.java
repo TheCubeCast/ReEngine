@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class PlayState extends GameState {	
 	
-	private int TileSize = 40; //This is the size of each tile, aswell as how far the camera moves per "turn"
+	private int TileSize = 32; //This is the size of each tile, aswell as how far the camera moves per "turn"
 	private int WorldSize = 200; //radius expanding from the origin point (0,0) of the world
 	private int MousePosX;
 	private int MousePosY;
@@ -20,6 +20,13 @@ public class PlayState extends GameState {
 	//private int PlayerPosY = 0;
 	private int cameraX = 0;
 	private int cameraY = 0;
+	
+	
+	//Buttons
+	//Object[] Buttons = new Object[]; //This is supposed to be a array containing all the buttons
+										//So they can be interated through in the button checks
+	int[] button1 = null;
+	int[] button2 = null;
 	
 	//only loading in 4 chunks from the chunk the player is in, in each direction
 	//Max Loaded chunks will be 16, Total of 4096 Tiles in memory
@@ -54,10 +61,24 @@ public class PlayState extends GameState {
 	
 	
 	public void update() {
+
 		
 		MousePosX = gsm.MouseX;
 		MousePosY = gsm.MouseY;
 		MouseDrag = gsm.MouseDrag;
+		
+		if(gsm.MouseClick[0] == 1 && MenuOpen) { //Runs all the button checks
+			//Common.print(" " + button1[0] + " " + button1[1]);
+			//Common.print(" " + button1[2] + " " + button1[3]);
+			
+			if(gsm.MouseClick[1] >= button1[0] && gsm.MouseClick[1] <= button1[2]) { //The button1
+				if(gsm.MouseClick[2] >= button1[1] && gsm.MouseClick[2] <= button1[3]) {
+					Common.print("Button1 Was clicked!");
+				}
+			}
+			
+			
+		}
 		
 		if (MouseDrag) {
 			//Common.print("Mouse draging at " + MousePosX + " " + MousePosY);
@@ -201,8 +222,8 @@ public class PlayState extends GameState {
 		gsm.Render.DrawTilesForeground(bbg, cameraX, cameraY, TileSize, WorldSize);
 		
 		//The GUI would go here
-		gsm.Render.GUI(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.
-		if(MenuOpen){gsm.Render.GUIMenu(bbg, width/2, height/2, TileSize, TileSize);} // The Game MEnu
+		gsm.Render.GUIDeco(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.
+		if(MenuOpen) {button1 = gsm.Render.GUIButton(bbg, width/2, height/2, 9, TileSize, TileSize, true);} // The Game MEnu
 		
 		gsm.Render.DrawAny(bbg, 00, MousePosX, MousePosY);
 	}

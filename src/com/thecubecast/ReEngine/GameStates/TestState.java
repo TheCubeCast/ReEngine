@@ -60,7 +60,6 @@ public class TestState extends GameState {
 		gsm.Render.DrawBackground(bbg, width, height);
 		
 		//The GUI would go here
-		gsm.Render.GUI(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.
-		if(MenuOpen){gsm.Render.GUIMenu(bbg, width/2, height/2, TileSize, TileSize);} // The Game MEnu
+		gsm.Render.GUIDeco(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.
 	}
 }

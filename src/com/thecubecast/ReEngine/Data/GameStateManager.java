@@ -35,6 +35,7 @@ public class GameStateManager {
 	public int MouseX;
 	public int MouseY;
 	public boolean MouseDrag;
+	public int[] MouseClick;
 	
 	//FrameTics
 	public int Tics;
@@ -102,15 +103,17 @@ public class GameStateManager {
 		gameStates[i] = null;
 	}
 	
-	public void update(int MousX, int MousY, boolean Draging, int TicZ) {
+	public void update(int MousX, int MousY, boolean Draging, int[] MousCl, int TicZ) {
 		MouseX = MousX;
 		MouseY = MousY;
 		MouseDrag = Draging;
+		MouseClick = MousCl;
 		Tics = TicZ;
 		if(gameStates[currentState] != null) {
 			
 			gameStates[currentState].update();
 		}
+		MouseClick[0] = 0;
 	}
 	
 	public void draw(Graphics2D g, int W, int H) {

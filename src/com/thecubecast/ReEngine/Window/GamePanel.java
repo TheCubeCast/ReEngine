@@ -37,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	public int MouseX;
 	public int MouseY;
 	public boolean MouseDrag;
+	int[] MouseClick = new int[] {0, 0, 0};
 	
 	// game loop stuff
 	private Thread thread;
@@ -127,7 +128,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	
 	// updates game
 		private void update() {
-			gsm.update(MouseX, MouseY, MouseDrag, tics);
+			gsm.update(MouseX, MouseY, MouseDrag, MouseClick, tics);
 			//Common.print("W: " + WIDTH + " and H: " + HEIGHT );
 			
 		}
@@ -156,12 +157,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	//Mouse Events
 	public void mouseClicked(MouseEvent e) {
 		Common.print("Mouse Clicked at " + e.getX() + " " + e.getY());
+		int[] MouseClicked = new int[] {1, e.getX(), e.getY()};
+		MouseClick = MouseClicked;
 	}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {
 		MouseDrag = false;
+		MouseClick[0] = 0;
 		//Common.print("Released mouse at " + e.getX() + " " + e.getY());
 	}
 	public void mouseDragged(MouseEvent e) {

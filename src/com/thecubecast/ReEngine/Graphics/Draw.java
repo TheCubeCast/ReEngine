@@ -127,7 +127,7 @@ public void DrawTilesForeground(Graphics buffer, int OffsetX, int OffsetY, int T
 	}
 	
 	//The GUI or Menu would go here.
-	public void GUI(Graphics buffer, int PosX, int PosY, int Sizex, int Sizey) {
+	public void GUIDeco(Graphics buffer, int PosX, int PosY, int Sizex, int Sizey) {
 		buffer.drawImage(Tiles[57], PosX, PosY, Sizex, Sizey, null);
 		buffer.drawImage(Tiles[58], PosX + Sizex, PosY, Sizex, Sizey, null);
 		buffer.drawImage(Tiles[58], PosX + (Sizex*2), PosY, Sizex, Sizey, null);
@@ -135,12 +135,19 @@ public void DrawTilesForeground(Graphics buffer, int OffsetX, int OffsetY, int T
 		buffer.drawString("testing GUI" , PosX + 40, PosY + 15);
 	}
 	
-	public void GUIMenu(Graphics buffer, int PosX, int PosY, int Sizex, int Sizey) {
+	public int[] GUIButton(Graphics buffer, int PosX, int PosY, int length, int Sizex, int Sizey, boolean center) {
+		if (center) {
+			PosX = PosX - ((Sizex*length)/2);
+		}
 		buffer.drawImage(Tiles[57], PosX, PosY, Sizex, Sizey, null);
-		buffer.drawImage(Tiles[58], PosX - Sizex, PosY, Sizex, Sizey, null);
-		buffer.drawImage(Tiles[58], PosX, PosY, Sizex, Sizey, null);
-		buffer.drawImage(Tiles[59], PosX + Sizex, PosY, Sizex, Sizey, null);
-		buffer.drawString("The Menu" , PosX, PosY + 15);
+		for (int i=1; i < (length + 1); i++) {
+			buffer.drawImage(Tiles[58], PosX + (Sizex*i), PosY, Sizex, Sizey, null);
+		}
+		buffer.drawImage(Tiles[59], PosX + (Sizex*length), PosY, Sizex, Sizey, null);
+		buffer.drawString("The Menu" , PosX+((Sizex*length)/2), PosY + 15);
+		
+		int[] size = new int[] {PosX, PosY, PosX+(Sizex*length), PosY+(Sizey)}; //subtract 10 from the y cause the sprite for these are 10pixels, not the normal 16
+		return size;
 	}
 	
 }
