@@ -55,9 +55,30 @@ public class ReadWrite {
 		new File("Saves/"+Title+"/Chunks").mkdir();
 		Common.print("Created '"+ Title +"' save!");
 		//creates the chunk folder and populates it with the starting chunks.
+		//for (int i=1; i < 10; i++) {
+		//	if(i == 1 || i == 2 || i == 3) {
+			//	int id[] = new int[] {0,i};
+			//	CreateChunk(Title, id, 16);
+		//	}
+			int id1[] = new int[] {1,1};
+			CreateChunk(Title, id1, 16);
+			int id2[] = new int[] {-1,1};
+			CreateChunk(Title, id2, 16);
+			int id3[] = new int[] {-1,-1};
+			CreateChunk(Title, id3, 16);
+			int id4[] = new int[] {1,-1};
+			CreateChunk(Title, id4, 16);
+			int id5[] = new int[] {1,-2};
+			CreateChunk(Title, id5, 16);
+			int id6[] = new int[] {-2,1};
+			CreateChunk(Title, id6, 16);
+			int id7[] = new int[] {1,-2};
+			CreateChunk(Title, id7, 16);
+			int id8[] = new int[] {-2,1};
+			CreateChunk(Title, id8, 16);
 		
 		//returns true or false depending on whether world files were successfully loaded
-		return false;
+		return true;
 		//the chunks are loaded independently from the world creation.
 	}
 	

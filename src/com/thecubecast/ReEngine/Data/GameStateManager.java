@@ -26,10 +26,13 @@ public class GameStateManager {
 	private int currentState;
 	private int previousState;
 	
-	
+	public String ChosenSave;
 	
 	//Public render function object
 	public Draw Render;
+	
+	//Public file handler
+	public ReadWrite Rwr;
 	
 	//MousePos
 	public int MouseX;
@@ -53,6 +56,9 @@ public class GameStateManager {
 		JukeBox.init();
 
 		Render = new Draw();
+		Rwr = new ReadWrite();
+		
+		Rwr.init();
 		Render.Init();
 		
 		gameStates = new GameState[NUM_STATES];

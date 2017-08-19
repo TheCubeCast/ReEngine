@@ -11,6 +11,8 @@ import java.awt.*;
 
 public class PlayState extends GameState {	
 	
+	private String CurrentSave = gsm.ChosenSave;
+	
 	private int TileSize = 32; //This is the size of each tile, aswell as how far the camera moves per "turn"
 	private int WorldSize = 200; //radius expanding from the origin point (0,0) of the world
 	private int MousePosX;
@@ -73,7 +75,9 @@ public class PlayState extends GameState {
 			
 			if(gsm.MouseClick[1] >= button1[0] && gsm.MouseClick[1] <= button1[2]) { //The button1
 				if(gsm.MouseClick[2] >= button1[1] && gsm.MouseClick[2] <= button1[3]) {
-					Common.print("Button1 Was clicked!");
+					//Save the game
+					//stop all audio
+					gsm.setState(GameStateManager.MENU);
 				}
 			}
 			
@@ -100,16 +104,7 @@ public class PlayState extends GameState {
 						Common.sleep(5);	
 					}
 					else {
-						cameraX += TileSize/5; 
-						Common.sleep(2);
-						cameraX += TileSize/5; 
-						Common.sleep(2);
-						cameraX += TileSize/5; 
-						Common.sleep(2);	
-						cameraX += TileSize/5; 
-						Common.sleep(2);	
-						cameraX += TileSize/5; 
-						Common.sleep(2);	
+						cameraX += TileSize; 
 					}
 				}
 			} 
@@ -123,16 +118,7 @@ public class PlayState extends GameState {
 						Common.sleep(5);	
 					}
 					else {
-						cameraX -= TileSize/5;
-						Common.sleep(2);	
-						cameraX -= TileSize/5;
-						Common.sleep(2);	
-						cameraX -= TileSize/5;
-						Common.sleep(2);	
-						cameraX -= TileSize/5;
-						Common.sleep(2);	
-						cameraX -= TileSize/5;
-						Common.sleep(2);		
+						cameraX -= TileSize;	
 					}
 				}
 			}
@@ -146,16 +132,7 @@ public class PlayState extends GameState {
 						Common.sleep(5);	
 					}
 					else {
-						cameraY -= TileSize/5;
-						Common.sleep(2);	
-						cameraY -= TileSize/5;
-						Common.sleep(2);
-						cameraY -= TileSize/5;
-						Common.sleep(2);
-						cameraY -= TileSize/5;
-						Common.sleep(2);
-						cameraY -= TileSize/5;
-						Common.sleep(2);
+						cameraY -= TileSize;
 					}
 				}
 			}
@@ -169,16 +146,7 @@ public class PlayState extends GameState {
 						Common.sleep(5);	
 					}
 					else {
-						cameraY += TileSize/5; 
-						Common.sleep(2);
-						cameraY += TileSize/5; 
-						Common.sleep(2);
-						cameraY += TileSize/5; 
-						Common.sleep(2);
-						cameraY += TileSize/5; 
-						Common.sleep(2);
-						cameraY += TileSize/5; 
-						Common.sleep(2);
+						cameraY += TileSize; 
 					}
 				}
 			} 
@@ -222,8 +190,8 @@ public class PlayState extends GameState {
 		gsm.Render.DrawTilesForeground(bbg, cameraX, cameraY, TileSize, WorldSize);
 		
 		//The GUI would go here
-		gsm.Render.GUIDeco(bbg, 0, 0, TileSize, TileSize); //Any overlays such as Health, gold, fuel, etc.
-		if(MenuOpen) {button1 = gsm.Render.GUIButton(bbg, width/2, height/2, 9, TileSize, TileSize, true);} // The Game MEnu
+		gsm.Render.GUIDeco(bbg, 0, 0, TileSize, TileSize, CurrentSave); //Any overlays such as Health, gold, fuel, etc.
+		if(MenuOpen) {button1 = gsm.Render.GUIButton(bbg, width/2, height/2, 4, TileSize, TileSize, true, "Return to Menu");} // The Game MEnu
 		
 		gsm.Render.DrawAny(bbg, 00, MousePosX, MousePosY);
 	}

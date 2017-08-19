@@ -21,8 +21,6 @@ public class IntroState extends GameState {
 	private int alpha;
 	private int ticks;
 	
-	public ReadWrite Io_;
-	
 	private final int FADE_IN = 20;
 	private final int LENGTH = 20;
 	private final int FADE_OUT = 20;
@@ -32,11 +30,6 @@ public class IntroState extends GameState {
 	}
 	
 	public void init() {
-		Io_ = new ReadWrite();
-		Io_.init();
-		Io_.CreateSave("Test");
-		int id[] = new int[] {0,1};
-		Io_.CreateChunk("Test", id, 16);
 		ticks = 0;
 		//JukeBox.load("/Music/bgmusic.wav", "LogoSound");
 		//JukeBox.play("LogoSound");
