@@ -37,7 +37,7 @@ public class GameStateManager {
 	//MousePos
 	public int MouseX;
 	public int MouseY;
-	public boolean MouseDrag;
+	public int[] MouseDrag;
 	public int[] MouseClick;
 	
 	//FrameTics
@@ -71,17 +71,17 @@ public class GameStateManager {
 		unloadState(previousState);
 		currentState = i;
 		if(i == INTRO) {
-			Common.print("Loaded state Intro");
+			//Common.print("Loaded state Intro");
 			gameStates[i] = new IntroState(this);
 			gameStates[i].init();
 		}
 		else if(i == MENU) {
-			Common.print("Loaded state MENU");
+			//Common.print("Loaded state MENU");
 			gameStates[i] = new MainMenuState(this);
 			gameStates[i].init();
 		}
 		else if(i == PLAY) {
-			Common.print("Loaded state PLAY");
+			//Common.print("Loaded state PLAY");
 			gameStates[i] = new PlayState(this);
 			gameStates[i].init();
 		}
@@ -98,18 +98,18 @@ public class GameStateManager {
 		}
 		**/
 		else if(i == TEST) {
-			Common.print("Loaded state Test");
+			//Common.print("Loaded state Test");
 			gameStates[i] = new TestState(this);
 			gameStates[i].init();
 		}
 	}
 	
 	public void unloadState(int i) {
-		Common.print("Unloaded state " + i);
+		//Common.print("Unloaded state " + i);
 		gameStates[i] = null;
 	}
 	
-	public void update(int MousX, int MousY, boolean Draging, int[] MousCl, int TicZ) {
+	public void update(int MousX, int MousY, int[] Draging, int[] MousCl, int TicZ) {
 		MouseX = MousX;
 		MouseY = MousY;
 		MouseDrag = Draging;
@@ -119,7 +119,7 @@ public class GameStateManager {
 			
 			gameStates[currentState].update();
 		}
-		MouseClick[0] = 0;
+		//MouseClick[0] = 0;
 	}
 	
 	public void draw(Graphics2D g, int W, int H) {

@@ -17,7 +17,7 @@ public class PlayState extends GameState {
 	private int WorldSize = 200; //radius expanding from the origin point (0,0) of the world
 	private int MousePosX;
 	private int MousePosY;
-	private boolean MouseDrag;
+	private int[] MouseDrag;
 	//private int PlayerPosX = 0;
 	//private int PlayerPosY = 0;
 	private int cameraX = 0;
@@ -51,106 +51,19 @@ public class PlayState extends GameState {
 	}
 	
 	public void init() {
-		
-		
-		
-		
-		
-		JukeBox.load("/Music/bgmusic.wav", "introsound");
+		//JukeBox.load("/Music/bgmusic.wav", "introsound");
 		//JukeBox.loop("introsound");
 		//JukeBox.setVolume("introsound", -30.0f);
 	}
 	
 	
 	public void update() {
-
 		
 		MousePosX = gsm.MouseX;
 		MousePosY = gsm.MouseY;
 		MouseDrag = gsm.MouseDrag;
 		
-		if(gsm.MouseClick[0] == 1 && MenuOpen) { //Runs all the button checks
-			//Common.print(" " + button1[0] + " " + button1[1]);
-			//Common.print(" " + button1[2] + " " + button1[3]);
-			
-			if(gsm.MouseClick[1] >= button1[0] && gsm.MouseClick[1] <= button1[2]) { //The button1
-				if(gsm.MouseClick[2] >= button1[1] && gsm.MouseClick[2] <= button1[3]) {
-					//Save the game
-					//stop all audio
-					gsm.setState(GameStateManager.MENU);
-				}
-			}
-			
-			
-		}
-		
-		if (MouseDrag) {
-			//Common.print("Mouse draging at " + MousePosX + " " + MousePosY);
-		}
-		
-		//Moves the player on the map
-		
-		if(Keys.isPressed(Keys.ESCAPE)) { 
-			MenuOpen = !MenuOpen;
-			Common.sleep(50);
-		} else {}
-		
-		if (!MenuOpen) {
-			if(Keys.isDown(Keys.RIGHT)) { 
-				if(Keys.isDown(Keys.LEFT)) {}
-				else {
-					if (PlayerDirection != 4) {
-						PlayerDirection = 4;
-						Common.sleep(5);	
-					}
-					else {
-						cameraX += TileSize; 
-					}
-				}
-			} 
-			
-			if (Keys.isDown(Keys.LEFT)) 
-			{ 
-				if (Keys.isDown(Keys.RIGHT)) {}
-				else {
-					if (PlayerDirection != 2) {
-						PlayerDirection = 2;
-						Common.sleep(5);	
-					}
-					else {
-						cameraX -= TileSize;	
-					}
-				}
-			}
-			
-			if (Keys.isDown(Keys.UP)) 
-			{ 
-				if (Keys.isDown(Keys.DOWN)) {}
-				else {
-					if (PlayerDirection != 1) {
-						PlayerDirection = 1;
-						Common.sleep(5);	
-					}
-					else {
-						cameraY -= TileSize;
-					}
-				}
-			}
-			
-			if (Keys.isDown(Keys.DOWN)) 
-			{ 
-				if (Keys.isDown(Keys.UP)) {}
-				else {
-					if (PlayerDirection != 3) {
-						PlayerDirection = 3;
-						Common.sleep(5);	
-					}
-					else {
-						cameraY += TileSize; 
-					}
-				}
-			} 
-		}
+		handleInput();
 		
 		//This is were the camera location is updated
 		//Camera tracks to the players pos, instead of placing the player on the middle of the screen non-relative to the map layout
@@ -189,11 +102,95 @@ public class PlayState extends GameState {
 		// Draws the Foreground
 		gsm.Render.DrawTilesForeground(bbg, cameraX, cameraY, TileSize, WorldSize);
 		
+		//Debug Layer goes here
+		gsm.Render.DrawChunkDebugLines(bbg, 0, 0, TileSize, cameraX, cameraY);
+		
 		//The GUI would go here
 		gsm.Render.GUIDeco(bbg, 0, 0, TileSize, TileSize, CurrentSave); //Any overlays such as Health, gold, fuel, etc.
-		if(MenuOpen) {button1 = gsm.Render.GUIButton(bbg, width/2, height/2, 4, TileSize, TileSize, true, "Return to Menu");} // The Game MEnu
+		if(MenuOpen) {
+			bbg.fillRect((width/6)*2, (height/6)*2, (width/6)*2, (height/6)*2);
+			button1 = gsm.Render.GUIButton(bbg, width/2, height/2, 6, TileSize, TileSize, true, "Return to Menu");
+			} // The Game MEnu
 		
 		gsm.Render.DrawAny(bbg, 00, MousePosX, MousePosY);
+		
+		
+	}
+	
+	public void handleInput() {
+		if(gsm.MouseClick[0] == 1 && MenuOpen) { //Runs all the button checks			
+			if(gsm.MouseClick[1] >= button1[0] && gsm.MouseClick[1] <= button1[2]) { //The button1
+				if(gsm.MouseClick[2] >= button1[1] && gsm.MouseClick[2] <= button1[3]) {
+					//Save the game
+					//stop all audio
+					gsm.setState(GameStateManager.MENU);
+				}
+			}
+		}
+		
+		if (MouseDrag[0] == 1) {
+			//Common.print("Mouse draging at " + MousePosX + " " + MousePosY);
+		}
+		
+		//Moves the player on the map
+		if(Keys.isPressed(Keys.ESCAPE)) { 
+			MenuOpen = !MenuOpen;
+			Common.sleep(50);
+		} else {}
+		
+		if (!MenuOpen) {
+			if(Keys.isDown(Keys.RIGHT)) { 
+				if(Keys.isDown(Keys.LEFT)) {}
+				else {
+					if (PlayerDirection != 4) {
+						PlayerDirection = 4;
+					}
+					else {
+						cameraX += TileSize; 
+					}
+				}
+			} 
+			
+			if (Keys.isDown(Keys.LEFT)) 
+			{ 
+				if (Keys.isDown(Keys.RIGHT)) {}
+				else {
+					if (PlayerDirection != 2) {
+						PlayerDirection = 2;	
+					}
+					else {
+						cameraX -= TileSize;	
+					}
+				}
+			}
+			
+			if (Keys.isDown(Keys.UP)) 
+			{ 
+				if (Keys.isDown(Keys.DOWN)) {}
+				else {
+					if (PlayerDirection != 1) {
+						PlayerDirection = 1;
+					}
+					else {
+						cameraY -= TileSize;
+					}
+				}
+			}
+			
+			
+			if (Keys.isPressed(Keys.DOWN)) 
+			{ 
+				if (Keys.isDown(Keys.UP)) {}
+				else {
+					if (PlayerDirection != 3) {
+						PlayerDirection = 3;
+					}
+					else {
+						cameraY += TileSize; 
+					}
+				}
+			} 
+		}
 	}
 
 }

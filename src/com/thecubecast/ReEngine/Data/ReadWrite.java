@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class ReadWrite {
 	
-	public static void init() { //Create the folders that hold everything neatly
+	public void init() { //Create the folders that hold everything neatly
 		Path path = Paths.get("Saves");
 		//Path p3 = Paths.get(URI.create("http:///dev.thecubecast.com/Login.php?User=BLANK"));
 		
@@ -29,7 +29,7 @@ public class ReadWrite {
 		
 		if (Files.notExists(SettingsPath)) { // runs if the settings file does not exist
 			//create new settings file with universal settings that work for everyone 
-			Path path = Paths.get("", "Settings.config");
+			Path path = Paths.get("", "Settings.properties");
 			ArrayList<String> lines = new ArrayList<>();
 	        lines.add("#Settings");
 	        lines.add("\n");
@@ -60,22 +60,33 @@ public class ReadWrite {
 			//	int id[] = new int[] {0,i};
 			//	CreateChunk(Title, id, 16);
 		//	}
-			int id1[] = new int[] {1,1};
+			int id1[] = new int[] {-1,1};
 			CreateChunk(Title, id1, 16);
-			int id2[] = new int[] {-1,1};
+			id1 = null;
+			int id2[] = new int[] {1,1};
 			CreateChunk(Title, id2, 16);
-			int id3[] = new int[] {-1,-1};
+			id2 = null;
+			int id3[] = new int[] {2,1};
 			CreateChunk(Title, id3, 16);
-			int id4[] = new int[] {1,-1};
+			id3 = null;
+			int id4[] = new int[] {-1,-1};
 			CreateChunk(Title, id4, 16);
-			int id5[] = new int[] {1,-2};
+			id4 = null;
+			int id5[] = new int[] {1,-1};
 			CreateChunk(Title, id5, 16);
-			int id6[] = new int[] {-2,1};
+			id5 = null;
+			int id6[] = new int[] {2,-1};
 			CreateChunk(Title, id6, 16);
-			int id7[] = new int[] {1,-2};
+			id6 = null;
+			int id7[] = new int[] {-1,-2};
 			CreateChunk(Title, id7, 16);
-			int id8[] = new int[] {-2,1};
+			id7 = null;
+			int id8[] = new int[] {1,-2};
 			CreateChunk(Title, id8, 16);
+			id8 = null;
+			int id9[] = new int[] {2,-2};
+			CreateChunk(Title, id9, 16);
+			id9 = null;
 		
 		//returns true or false depending on whether world files were successfully loaded
 		return true;
@@ -85,13 +96,33 @@ public class ReadWrite {
 	//Creates a new chunk
 	public boolean CreateChunk(String Save, int[] id, int ChunkSize) {
 		
-		if(id[1] > 0) {
+		if(id[1] > 1) {
+			//Don't create the chunks that don't need to exist
+		}
+		
+		if(id[1] == 1) {
+			//These are the chunks above y=0, They have nothing.
+			//Maybe Buildings at some point, trees. Decoration
+			ArrayList<String> lines = new ArrayList<>();
+			for (int i=1; i < (ChunkSize + 1); i++) {
+				if (i < (ChunkSize)) {
+					lines.add("0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0");
+				} else {
+					lines.add("~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"); // This sets up a impenetrable block	
+				}
+			}
+			try {
+				Files.write(Paths.get("Saves/"+Save+"/Chunks", "Chunk_"+id[0]+"_"+id[1]+".dat"), lines, Charset.forName("UTF-8"), StandardOpenOption.CREATE);
+			} catch (IOException e) {e.printStackTrace();}
+		}
+		
+		if(id[1] < 0) {
 			ArrayList<String> lines = new ArrayList<>();
 			for (int i=1; i < (ChunkSize + 1); i++) {
 				lines.add("0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0");
 			}
 			try {
-				Files.write(Paths.get("Saves/"+Save+"/Chunks", "Chunk_"+id[0]+"_"+ id[1] +".dat"), lines, Charset.forName("UTF-8"), StandardOpenOption.CREATE);
+				Files.write(Paths.get("Saves/"+Save+"/Chunks", "Chunk_"+id[0]+"_"+id[1]+".dat"), lines, Charset.forName("UTF-8"), StandardOpenOption.CREATE);
 			} catch (IOException e) {e.printStackTrace();}
 		}
 		return true;

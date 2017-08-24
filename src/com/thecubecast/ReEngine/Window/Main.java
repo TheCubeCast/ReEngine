@@ -16,6 +16,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
+		System.setProperty("sun.java2d.opengl", "true");
+		
 		//Reads the settings from file to run with chosen settings
 		
 		JFrame window = new JFrame(Title);

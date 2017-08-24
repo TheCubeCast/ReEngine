@@ -5,6 +5,7 @@
 
 package com.thecubecast.ReEngine.Window;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
@@ -36,14 +37,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	//Mouse Position in the window
 	public int MouseX;
 	public int MouseY;
-	public boolean MouseDrag;
+	int[] MouseDrag = new int[] {0, 0, 0};
 	int[] MouseClick = new int[] {0, 0, 0};
 	
 	// game loop stuff
 	private Thread thread;
 	private boolean running;
-	private final int FPS = 120;
+	private final int FPS = 240;
 	private final int TARGET_TIME = 1000 / FPS;
+	private double REALFPS;
 	public int tics;
 	
 	// drawing stuff
@@ -92,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			
 			elapsed = System.nanoTime() - start;
 			
-			wait = TARGET_TIME - elapsed / 1000000;
+			wait = TARGET_TIME - elapsed / 1000000000;
 			if(wait < 0) wait = TARGET_TIME;
 			
 			try {
@@ -101,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-			
+			REALFPS = 1000000000.0 / (System.nanoTime() - start);
 			tics++;
 			
 		}
@@ -136,6 +138,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	// draws game
 	private void draw() {
 		gsm.draw(g, HEIGHT, WIDTH);
+		//g.setColor(Color.YELLOW);
+		//g.drawString("" + REALFPS, WIDTH- 150, 10);
+		//g.setColor(Color.white);
 	}
 	
 	// copy buffer to screen
@@ -155,26 +160,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	}
 
 	//Mouse Events
-	public void mouseClicked(MouseEvent e) {
-		Common.print("Mouse Clicked at " + e.getX() + " " + e.getY());
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {
+		//Common.print("Mouse Clicked at " + e.getX() + " " + e.getY());
 		int[] MouseClicked = new int[] {1, e.getX(), e.getY()};
 		MouseClick = MouseClicked;
 	}
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
-	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {
-		MouseDrag = false;
 		MouseClick[0] = 0;
 		//Common.print("Released mouse at " + e.getX() + " " + e.getY());
 	}
 	public void mouseDragged(MouseEvent e) {
-		MouseDrag = true;
+		int[] MouseDraged = new int[] {1, e.getX(), e.getY()};
+		MouseDrag = MouseDraged;
 		MouseX = e.getX();
 		MouseY = e.getY();
 	}
 	public void mouseMoved(MouseEvent e) {
-		MouseDrag = false;
 		MouseX = e.getX();
 		MouseY = e.getY();
 		//Common.print("Mouse is at " + e.getX() + " " + e.getY());
@@ -199,7 +203,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			WIDTH = getWidth();
 			Common.print("JPanel resized to W: " + e.getComponent().getWidth() + " by H: " + e.getComponent().getHeight());
 			
-			if (BackBuffer.getWidth() != WIDTH | BackBuffer.getHeight() != HEIGHT) {
+			if (BackBuffer != null && BackBuffer.getWidth() != WIDTH | BackBuffer.getHeight() != HEIGHT) {
 				BackBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 				g = (Graphics2D) BackBuffer.getGraphics();
 			}

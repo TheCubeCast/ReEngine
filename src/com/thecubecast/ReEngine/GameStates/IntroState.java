@@ -8,15 +8,11 @@ import java.awt.Graphics2D;
 import com.thecubecast.ReEngine.Data.Common;
 
 import com.thecubecast.ReEngine.Data.Keys;
-import com.thecubecast.ReEngine.Data.ReadWrite;
 import com.thecubecast.ReEngine.Data.GameStateManager;
 import com.thecubecast.ReEngine.Data.JukeBox;
 
 
 public class IntroState extends GameState {
-	
-	//int HEIGHT = gsm.Window.WindowH;
-	//int WIDTH = gsm.Window.WindowH;
 	
 	private int alpha;
 	private int ticks;
